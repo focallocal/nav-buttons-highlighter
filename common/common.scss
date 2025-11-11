@@ -20,13 +20,7 @@
     display: none !important;
   }
 
-  .category-navigation .dropdown-select-box,
-  .category-navigation .combo-box {
-    display: none !important;
-  }
-
-  #navigation-bar,
-  .category-navigation .nav-pills {
+  #navigation-bar {
     display: flex !important;
     flex-wrap: wrap;
     justify-content: center;
@@ -35,13 +29,11 @@
     padding: 0;
   }
 
-  #navigation-bar > li,
-  .category-navigation .nav-pills > li {
+  #navigation-bar > li {
     list-style: none;
   }
 
-  #navigation-bar > li > a,
-  .category-navigation .nav-pills > li > a {
+  #navigation-bar > li > a {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -52,7 +44,6 @@
 
   .category-navigation .nav-pills {
     order: 1;
-    width: 100%;
   }
 
   .category-navigation .category-tools {
