@@ -3,8 +3,24 @@
 const STYLE_ID = "nav-button-color-overrides";
 
 function parseRules() {
-  const lines = settings.nav_button_color_pairs || [];
-  return lines
+  const current = settings.nav_button_color_pairs;
+
+  if (Array.isArray(current)) {
+    return current
+      .map((item) => ({
+        selector: (item?.selector || "").trim(),
+        color: (item?.color || "").trim(),
+      }))
+      .filter((rule) => rule.selector && rule.color);
+  }
+
+  if (!current) {
+    return [];
+  }
+
+  // Fallback: support legacy newline-separated list entries
+  return String(current)
+    .split("\n")
     .map((line) => line.split("|"))
     .map((parts) => ({
       selector: (parts[0] || "").trim(),

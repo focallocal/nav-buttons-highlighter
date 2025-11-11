@@ -1,11 +1,23 @@
 nav_button_color_pairs:
-  type: list
-  list_type: simple
-  default: |
-    li[data-filter="docs"] > a | #87CEEB
-    li[data-filter="tasks"] > a | #20B2AA
+  type: objects
+  default:
+    - selector: "li[data-filter=\"docs\"] > a"
+      color: "#87CEEB"
+    - selector: "li[data-filter=\"tasks\"] > a"
+      color: "#20B2AA"
   description: |
-    Format each entry as `selector | color`. Inspect the navigation pill on your site, copy its CSS selector (e.g. `li[data-filter="top"] > a`), and pair it with any valid CSS colour (hex, rgb, etc.).
+    Add one row per navigation pill you want to highlight. Use the browser inspector to copy the pill's CSS selector and provide the colour you want it to use.
+  schema:
+    name: "Nav button"
+    properties:
+      selector:
+        type: string
+        required: true
+        validations:
+          min_length: 1
+      color:
+        type: string
+        required: true
 
 active_outline_color:
   type: string
