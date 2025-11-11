@@ -1,4 +1,22 @@
-/* global settings, api */
+/* global settings */
+
+function withPluginApi(callback) {
+  if (typeof require !== "function") {
+    return false;
+  }
+
+  try {
+    const { withPluginApi } = require("discourse/lib/plugin-api");
+    if (typeof withPluginApi === "function") {
+      withPluginApi("0.8", (api) => callback(api));
+      return true;
+    }
+  } catch (error) {
+    // no-op: plugin API not yet available in this context
+  }
+
+  return false;
+}
 
 const STYLE_ID = "nav-button-color-overrides";
 
@@ -51,9 +69,9 @@ function injectStyles() {
   tag.textContent = rules
     .map(({ selector, color }) => `
       ${selector} {
-        background-color: ${color};
-        border: 1px solid ${color};
-        color: #fff;
+        background-color: ${color} !important;
+        border: 1px solid ${color} !important;
+        color: #fff !important;
         display: inline-flex;
         align-items: center;
         justify-content: center;
@@ -63,8 +81,8 @@ function injectStyles() {
       }
       ${selector}:hover,
       ${selector}:focus {
-        background-color: ${color};
-        border-color: ${color};
+        background-color: ${color} !important;
+        border-color: ${color} !important;
         text-decoration: none;
       }
       ${selector}.active {
@@ -82,18 +100,26 @@ function updateStyles() {
   injectStyles();
 }
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    updateStyles();
+function registerApiHooks() {
+  const registered = withPluginApi((api) => {
     api.onPageChange(() => requestAnimationFrame(updateStyles));
     if (typeof api.onAppEvent === "function") {
       api.onAppEvent("theme-settings:changed", updateStyles);
     }
   });
-} else {
-  updateStyles();
-  api.onPageChange(() => requestAnimationFrame(updateStyles));
-  if (typeof api.onAppEvent === "function") {
-    api.onAppEvent("theme-settings:changed", updateStyles);
+
+  if (!registered) {
+    document.addEventListener("turbo:render", () => requestAnimationFrame(updateStyles));
   }
+}
+
+function init() {
+  updateStyles();
+  registerApiHooks();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init, { once: true });
+} else {
+  init();
 }

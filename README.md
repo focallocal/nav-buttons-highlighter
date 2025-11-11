@@ -21,9 +21,7 @@ A Discourse theme component that styles selected category navigation buttons and
 
 Inside the component’s **Settings** tab:
 
-- **nav_button_color_pairs** – Table with a row per pill. Fill the **selector** column with the link’s CSS selector and the **color** column with the hex value you want applied. Example entries:
-  - Selector: `li[data-filter="docs"] > a`, Colour: `#87CEEB`
-  - Selector: `li[data-filter="tasks"] > a`, Colour: `#20B2AA`
+- **nav_button_color_pairs** – Table with a row per pill. Fill the **selector** column with the link’s CSS selector and the **color** column with the hex value you want applied. Defaults include highlights for `li[data-filter="docs"] > a`, `li[data-filter="tasks"] > a`, `#ember143`, and `.kanban-nav`, which you can keep or replace with your own selectors and colours.
   To find the selector, open your forum in a browser, right-click the navigation pill you want to target, select **Inspect**, and copy the CSS path displayed for the link element.
 
 - **active_outline_color** – Colour applied as a subtle outline when a highlighted pill is active.

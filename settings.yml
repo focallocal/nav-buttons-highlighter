@@ -5,6 +5,10 @@ nav_button_color_pairs:
       color: "#87CEEB"
     - selector: "li[data-filter=\"tasks\"] > a"
       color: "#20B2AA"
+    - selector: "#ember143"
+      color: "#FF8C00"
+    - selector: ".kanban-nav"
+      color: "#4CAF50"
   description: |
     Add one row per navigation pill you want to highlight. Use the browser inspector to copy the pill's CSS selector and provide the colour you want it to use.
   schema:
