@@ -1,0 +1,13 @@
+nav_button_color_pairs:
+  type: list
+  list_type: simple
+  default: |
+    li[data-filter="docs"] > a | #87CEEB
+    li[data-filter="tasks"] > a | #20B2AA
+  description: |
+    Format each entry as `selector | color`. Inspect the navigation pill on your site, copy its CSS selector (e.g. `li[data-filter="top"] > a`), and pair it with any valid CSS colour (hex, rgb, etc.).
+
+active_outline_color:
+  type: string
+  default: rgba(255,255,255,0.85)
+  description: Colour used for the active pill outline. Set to `transparent` to disable.

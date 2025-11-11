@@ -1,0 +1,12 @@
+{
+  "name": "Nav Buttons Highlighter",
+  "component": true,
+  "authors": [
+    "Andy@Focallocal",
+    "GitHub Copilot"
+  ],
+  "meta_url": "https://publichappinessmovement.com",
+  "about_url": "https://github.com/focallocal/nav-buttons-highlighter",
+  "license_url": "https://opensource.org/licenses/MIT",
+  "theme_version": "1.0.0"
+}
