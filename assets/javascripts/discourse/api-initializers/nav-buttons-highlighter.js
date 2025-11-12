@@ -1,5 +1,10 @@
-/* global settings */
+import { apiInitializer } from "discourse/lib/api";
 
+export default apiInitializer("1.8.0", (api) => {
+  const settings = require("discourse/lib/theme-settings-store").getObjectForTheme(
+    api.container.lookup("service:theme-settings-store").themeName
+  );
+  
 function withPluginApi(callback) {
   if (typeof require !== "function") {
     return false;
@@ -236,3 +241,4 @@ if (document.readyState === "loading") {
 } else {
   init();
 }
+});
