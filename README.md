@@ -33,7 +33,7 @@ Save your changes and refresh a category page to see the effect.
 This repository contains:
 
 - `common/common.scss` – Layout adjustments (mobile centring, pill sizing).
-- `common/head/script.js` – Injects dynamic styles from the settings list.
+-`assets\javascripts\discourse\api-initializers` – Injects dynamic styles from the settings list.
 - `about.json` – Component metadata for Discourse.
 - `settings.yml` – Declares admin-facing settings.
 
