@@ -42,23 +42,24 @@ export default apiInitializer("1.8.0", (api) => {
       return "";
     }
 
-    const baseSelectors = anchorSelectors.join(",\n      ");
+    // Add more specific selectors for better specificity
+    const baseSelectors = anchorSelectors.map(s => `body ${s}`).join(",\n      ");
 
     const hoverSelectors = dedupe([
-      ...anchorSelectors.map((s) => `${s}:hover`),
-      ...anchorSelectors.map((s) => `${s}:focus`),
-      ...anchorSelectors.map((s) => `${s}:focus-visible`),
-      ...parentSelectors.map((s) => `${s}:hover > a`),
-      ...parentSelectors.map((s) => `${s}:focus-within > a`),
+      ...anchorSelectors.map((s) => `body ${s}:hover`),
+      ...anchorSelectors.map((s) => `body ${s}:focus`),
+      ...anchorSelectors.map((s) => `body ${s}:focus-visible`),
+      ...parentSelectors.map((s) => `body ${s}:hover > a`),
+      ...parentSelectors.map((s) => `body ${s}:focus-within > a`),
     ]).join(",\n      ");
 
     const activeSelectors = dedupe([
-      ...anchorSelectors.map((s) => `${s}.active`),
-      ...anchorSelectors.map((s) => `${s}[aria-current="page"]`),
-      ...anchorSelectors.map((s) => `${s}[aria-selected="true"]`),
-      ...parentSelectors.map((s) => `${s}.active > a`),
-      ...parentSelectors.map((s) => `${s}[aria-current="page"] > a`),
-      ...parentSelectors.map((s) => `${s}[aria-selected="true"] > a`),
+      ...anchorSelectors.map((s) => `body ${s}.active`),
+      ...anchorSelectors.map((s) => `body ${s}[aria-current="page"]`),
+      ...anchorSelectors.map((s) => `body ${s}[aria-selected="true"]`),
+      ...parentSelectors.map((s) => `body ${s}.active > a`),
+      ...parentSelectors.map((s) => `body ${s}[aria-current="page"] > a`),
+      ...parentSelectors.map((s) => `body ${s}[aria-selected="true"] > a`),
     ]).join(",\n      ");
 
     let css = `
@@ -66,13 +67,14 @@ export default apiInitializer("1.8.0", (api) => {
         background-color: ${color} !important;
         border: 1px solid ${color} !important;
         color: #fff !important;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0.35rem 0.75rem;
-        border-radius: 999px;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        padding: 0.35rem 0.75rem !important;
+        border-radius: 999px !important;
         text-decoration: none !important;
-        transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+        transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
+        font-weight: 500 !important;
       }
     `;
 
@@ -83,6 +85,7 @@ export default apiInitializer("1.8.0", (api) => {
         border-color: ${color} !important;
         color: #fff !important;
         text-decoration: none !important;
+        opacity: 0.9 !important;
       }
       `;
     }
@@ -91,7 +94,7 @@ export default apiInitializer("1.8.0", (api) => {
       css += `
       ${activeSelectors} {
         box-shadow: 0 0 0 2px ${outlineColor},
-                    0 0 0 4px rgba(0, 0, 0, 0.08);
+                    0 0 0 4px rgba(0, 0, 0, 0.08) !important;
       }
       `;
     }
@@ -171,6 +174,27 @@ export default apiInitializer("1.8.0", (api) => {
     return tag;
   }
 
+  function preventDropdownBehavior() {
+    // Force navigation items to be visible on mobile
+    const navBar = document.querySelector('#navigation-bar');
+    if (!navBar) return;
+
+    // Hide any dropdown toggle buttons
+    const toggleButtons = navBar.querySelectorAll('.list-control-toggle-link-trigger, .fk-d-menu__trigger');
+    toggleButtons.forEach(btn => {
+      btn.style.display = 'none';
+    });
+
+    // Make sure all list items are visible
+    const listItems = navBar.querySelectorAll('li');
+    listItems.forEach(item => {
+      if (!item.classList.contains('list-control-toggle-link-trigger') && 
+          !item.querySelector('.fk-d-menu__trigger')) {
+        item.style.display = 'inline-flex';
+      }
+    });
+  }
+
   function injectStyles() {
     const tag = ensureStyleTag();
     const rules = parseRules();
@@ -193,6 +217,7 @@ export default apiInitializer("1.8.0", (api) => {
       return;
     }
     injectStyles();
+    preventDropdownBehavior();
     observeNavigation();
   }
 
