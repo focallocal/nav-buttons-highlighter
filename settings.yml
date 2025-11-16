@@ -1,16 +1,12 @@
 nav_button_color_pairs:
   type: objects
   default:
-    - selector: "li[data-filter=\"docs\"] > a"
-      color: "#87CEEB"
-    - selector: "li[data-filter=\"tasks\"] > a"
-      color: "#20B2AA"
-    - selector: "#ember143"
-      color: "#FF8C00"
-    - selector: ".kanban-nav"
+    - selector: "#navigation-bar > li > a"
       color: "#4CAF50"
+    - selector: ".nav-pills > li > a"
+      color: "#87CEEB"
   description: |
-    Add one row per navigation pill you want to highlight. Use the browser inspector to copy the pill's CSS selector and provide the colour you want it to use.
+    Add one row per navigation pill you want to highlight. Use the browser inspector to copy the pill's CSS selector and provide the colour you want it to use. Examples: "#navigation-bar > li > a" for all nav buttons, or "#navigation-bar > li:nth-child(2) > a" for the second button.
   schema:
     name: "Nav button"
     properties:

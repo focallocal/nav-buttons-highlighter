@@ -179,18 +179,31 @@ export default apiInitializer("1.8.0", (api) => {
     const navBar = document.querySelector('#navigation-bar');
     if (!navBar) return;
 
-    // Hide any dropdown toggle buttons
-    const toggleButtons = navBar.querySelectorAll('.list-control-toggle-link-trigger, .fk-d-menu__trigger');
-    toggleButtons.forEach(btn => {
-      btn.style.display = 'none';
+    // Hide any dropdown toggle buttons and menus
+    const dropdownElements = document.querySelectorAll(
+      '.list-control-toggle-link-trigger, ' +
+      '.fk-d-menu__trigger, ' +
+      '.fk-d-menu-modal, ' +
+      '.fk-d-menu[data-identifier="navigation-menu"]'
+    );
+    dropdownElements.forEach(el => {
+      el.style.display = 'none';
+      el.style.visibility = 'hidden';
+      el.style.pointerEvents = 'none';
     });
 
-    // Make sure all list items are visible
+    // Make sure all list items in navigation are visible
     const listItems = navBar.querySelectorAll('li');
     listItems.forEach(item => {
-      if (!item.classList.contains('list-control-toggle-link-trigger') && 
-          !item.querySelector('.fk-d-menu__trigger')) {
+      // Don't show dropdown trigger items themselves
+      if (item.classList.contains('list-control-toggle-link-trigger') || 
+          item.querySelector('.fk-d-menu__trigger')) {
+        item.style.display = 'none';
+      } else {
+        // Force navigation items to be visible
         item.style.display = 'inline-flex';
+        item.style.visibility = 'visible';
+        item.style.opacity = '1';
       }
     });
   }
