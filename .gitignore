@@ -1,0 +1,10 @@
+# VS Code workspace files
+*.code-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode/
+.idea/
