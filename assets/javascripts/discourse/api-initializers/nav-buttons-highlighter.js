@@ -1,321 +1,96 @@
 import { apiInitializer } from "discourse/lib/api";
+import { helperContext } from "discourse-common/lib/helpers";
 
-export default apiInitializer("1.8.0", (api) => {
-  const STYLE_ID = "nav-button-color-overrides";
-  const ANCHOR_TOKEN = /(^|[>+~\s])a([.#:[\s>+~]|$)/i;
+export default apiInitializer("1.14.0", (api) => {
+  const settings = helperContext()?.themeSettings;
   
-  // Get settings from the global settings object injected by Discourse
-  const getSettings = () => {
-    try {
-      // Try to get from window first (where Discourse injects theme settings)
-      if (window.theme_settings && window.theme_settings.nav_button_color_pairs !== undefined) {
-        return window.theme_settings;
-      }
-      // Fallback to checking if settings were passed another way
-      return api.container.lookup("service:theme-settings") || {};
-    } catch (e) {
-      console.error("[Nav Buttons Highlighter] Could not access settings:", e);
-      return {};
-    }
-  };
-
-  function dedupe(list) {
-    return Array.from(new Set((list || []).filter(Boolean)));
+  if (!settings) {
+    console.error("[Nav Buttons Highlighter] Theme settings not available");
+    return;
   }
 
-  function expandSelectors(selector) {
-    const trimmed = (selector || "").trim();
-    if (!trimmed) {
-      return null;
-    }
-
-    const anchorSelectors = new Set();
-    const parentSelectors = new Set();
-
-    if (ANCHOR_TOKEN.test(trimmed)) {
-      anchorSelectors.add(trimmed);
-    } else {
-      parentSelectors.add(trimmed);
-      anchorSelectors.add(`${trimmed} > a`);
-      anchorSelectors.add(`${trimmed} a`);
-    }
-
-    return {
-      anchorSelectors: Array.from(anchorSelectors),
-      parentSelectors: Array.from(parentSelectors),
-    };
-  }
-
-  function buildCssBlock(selector, color, outlineColor) {
-    const expanded = expandSelectors(selector);
-    if (!expanded) {
-      return "";
-    }
-
-    const { anchorSelectors, parentSelectors } = expanded;
-    if (!anchorSelectors.length) {
-      return "";
-    }
-
-    // Add more specific selectors for better specificity
-    const baseSelectors = anchorSelectors.map(s => `body ${s}`).join(",\n      ");
-
-    const hoverSelectors = dedupe([
-      ...anchorSelectors.map((s) => `body ${s}:hover`),
-      ...anchorSelectors.map((s) => `body ${s}:focus`),
-      ...anchorSelectors.map((s) => `body ${s}:focus-visible`),
-      ...parentSelectors.map((s) => `body ${s}:hover > a`),
-      ...parentSelectors.map((s) => `body ${s}:focus-within > a`),
-    ]).join(",\n      ");
-
-    const activeSelectors = dedupe([
-      ...anchorSelectors.map((s) => `body ${s}.active`),
-      ...anchorSelectors.map((s) => `body ${s}[aria-current="page"]`),
-      ...anchorSelectors.map((s) => `body ${s}[aria-selected="true"]`),
-      ...parentSelectors.map((s) => `body ${s}.active > a`),
-      ...parentSelectors.map((s) => `body ${s}[aria-current="page"] > a`),
-      ...parentSelectors.map((s) => `body ${s}[aria-selected="true"] > a`),
-    ]).join(",\n      ");
-
-    let css = `
-      ${baseSelectors} {
-        background-color: ${color} !important;
-        border: 1px solid ${color} !important;
-        color: #fff !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 0.35rem 0.75rem !important;
-        border-radius: 999px !important;
-        text-decoration: none !important;
-        transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease !important;
-        font-weight: 500 !important;
-      }
-    `;
-
-    if (hoverSelectors) {
-      css += `
-      ${hoverSelectors} {
-        background-color: ${color} !important;
-        border-color: ${color} !important;
-        color: #fff !important;
-        text-decoration: none !important;
-        opacity: 0.9 !important;
-      }
-      `;
-    }
-
-    if (activeSelectors) {
-      css += `
-      ${activeSelectors} {
-        box-shadow: 0 0 0 2px ${outlineColor},
-                    0 0 0 4px rgba(0, 0, 0, 0.08) !important;
-      }
-      `;
-    }
-
-    return css;
-  }
-
-  let navObserver;
-  let observeTimeout;
-
-  function observeNavigation() {
-    if (observeTimeout) {
-      clearTimeout(observeTimeout);
-      observeTimeout = null;
-    }
-
-    if (typeof MutationObserver === "undefined") {
-      return;
-    }
-
-    const targets = Array.from(
-      document.querySelectorAll("#navigation-bar, .category-navigation .nav-pills, .kanban-nav")
-    );
-
-    if (!targets.length) {
-      observeTimeout = setTimeout(observeNavigation, 300);
-      return;
-    }
-
-    if (navObserver) {
-      navObserver.disconnect();
-    }
-
-    navObserver = new MutationObserver(() => {
-      requestAnimationFrame(updateStyles);
-    });
-
-    targets.forEach((el) => {
-      navObserver.observe(el, { childList: true, subtree: true, attributes: true });
-    });
-  }
-
-  function parseRules() {
-    const settings = getSettings();
-    const current = settings.nav_button_color_pairs;
-    
-    // Debug logging
-    console.log("[Nav Buttons Highlighter] Settings:", settings);
-    console.log("[Nav Buttons Highlighter] Color pairs:", current);
-
-    if (Array.isArray(current)) {
-      return current
-        .map((item) => ({
-          selector: (item?.selector || "").trim(),
-          color: (item?.color || "").trim(),
-        }))
-        .filter((rule) => rule.selector && rule.color);
-    }
-
-    if (!current) {
-      console.warn("[Nav Buttons Highlighter] No color pairs configured");
-      return [];
-    }
-
-    // Fallback: support legacy newline-separated list entries
-    return String(current)
-      .split("\n")
-      .map((line) => line.split("|"))
-      .map((parts) => ({
-        selector: (parts[0] || "").trim(),
-        color: (parts[1] || "").trim(),
-      }))
-      .filter((rule) => rule.selector && rule.color);
-  }
-
-  function ensureStyleTag() {
-    let tag = document.head.querySelector(`#${STYLE_ID}`);
-    if (!tag) {
-      tag = document.createElement("style");
-      tag.id = STYLE_ID;
-      document.head.appendChild(tag);
-    }
-    return tag;
-  }
-
-  function preventDropdownBehavior() {
-    // Force navigation items to be visible on mobile
-    const navSelectors = [
-      '#navigation-bar',
-      '.category-navigation',
-      '.nav-pills',
-      'ul.nav.nav-pills',
-      '.navigation-container'
-    ];
-    
-    // First, make sure navigation containers are visible
-    navSelectors.forEach(selector => {
-      const containers = document.querySelectorAll(selector);
-      containers.forEach(container => {
-        if (container) {
-          container.style.display = 'flex';
-          container.style.flexWrap = 'wrap';
-          container.style.visibility = 'visible';
-          container.style.opacity = '1';
-          container.style.height = 'auto';
-          container.style.overflow = 'visible';
-        }
-      });
-    });
-
-    // Hide any dropdown toggle buttons and menus
-    const dropdownElements = document.querySelectorAll(
-      '.list-control-toggle-link-trigger, ' +
-      '.fk-d-menu__trigger, ' +
-      '.fk-d-menu-modal, ' +
-      '.fk-d-menu[data-identifier="navigation-menu"]'
-    );
-    dropdownElements.forEach(el => {
-      el.style.display = 'none';
-      el.style.visibility = 'hidden';
-      el.style.pointerEvents = 'none';
-    });
-
-    // Make sure all list items in navigation are visible
-    const allNavContainers = document.querySelectorAll(
-      '#navigation-bar, .nav-pills, ul.nav.nav-pills, .navigation-container'
-    );
-    
-    allNavContainers.forEach(navBar => {
-      if (!navBar) return;
-      
-      const listItems = navBar.querySelectorAll('li');
-      listItems.forEach(item => {
-        // Don't show dropdown trigger items themselves
-        if (item.classList.contains('list-control-toggle-link-trigger') || 
-            item.querySelector('.fk-d-menu__trigger')) {
-          item.style.display = 'none';
-        } else {
-          // Force navigation items to be visible
-          item.style.display = 'inline-flex';
-          item.style.visibility = 'visible';
-          item.style.opacity = '1';
-          item.style.height = 'auto';
-          item.style.maxHeight = 'none';
-          
-          // Also make sure the links inside are visible
-          const link = item.querySelector('a');
-          if (link) {
-            link.style.display = 'inline-flex';
-            link.style.visibility = 'visible';
-            link.style.opacity = '1';
-          }
-        }
-      });
-    });
-  }
-
-  function injectStyles() {
-    const tag = ensureStyleTag();
-    const rules = parseRules();
-
-    if (!rules.length) {
-      console.warn("[Nav Buttons Highlighter] No valid rules to inject");
-      tag.textContent = "";
-      return;
-    }
-
-    const settings = getSettings();
-    const outlineColor = settings.active_outline_color || "rgba(255,255,255,0.85)";
-
-    const cssContent = rules
-      .map(({ selector, color }) => buildCssBlock(selector, color, outlineColor))
-      .filter(Boolean)
-      .join("\n");
-    
-    tag.textContent = cssContent;
-    console.log("[Nav Buttons Highlighter] Injected CSS for", rules.length, "rules");
-  }
-
-  function updateStyles() {
-    if (!document.body) {
-      return;
-    }
-    injectStyles();
-    preventDropdownBehavior();
-    observeNavigation();
-  }
-
-  // Use the api object provided by apiInitializer
-  api.onPageChange(() => {
-    requestAnimationFrame(updateStyles);
+  console.log("[Nav Buttons Highlighter] Settings loaded:", {
+    pairs: settings.nav_button_color_pairs,
+    outline: settings.active_outline_color
   });
 
-  // Listen for theme settings changes if available
-  if (typeof api.onAppEvent === "function") {
-    api.onAppEvent("theme-settings:changed", () => {
-      requestAnimationFrame(updateStyles);
+  function applyStyles() {
+    const colorPairs = settings.nav_button_color_pairs || [];
+    const outlineColor = settings.active_outline_color || "rgba(255,255,255,0.85)";
+
+    console.log("[Nav Buttons Highlighter] Applying styles for", colorPairs.length, "selectors");
+
+    if (!colorPairs.length) {
+      console.warn("[Nav Buttons Highlighter] No color pairs configured");
+      return;
+    }
+
+    let cssRules = colorPairs.map(({ selector, color }) => {
+      return `
+        ${selector} {
+          background-color: ${color} !important;
+          color: #fff !important;
+          padding: 8px 16px !important;
+          border-radius: 8px !important;
+          font-weight: 500 !important;
+          transition: all 0.2s ease !important;
+        }
+        ${selector}:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        ${selector}.active {
+          outline: 2px solid ${outlineColor} !important;
+          outline-offset: 2px !important;
+          font-weight: 600 !important;
+        }
+      `;
+    }).join('\n');
+
+    // Remove old style tag if exists
+    const oldStyle = document.getElementById('nav-buttons-highlighter-styles');
+    if (oldStyle) {
+      oldStyle.remove();
+    }
+
+    // Inject new styles
+    const styleTag = document.createElement('style');
+    styleTag.id = 'nav-buttons-highlighter-styles';
+    styleTag.textContent = cssRules;
+    document.head.appendChild(styleTag);
+
+    console.log("[Nav Buttons Highlighter] Styles injected");
+  }
+
+  function forceNavVisibility() {
+    // Target the actual navigation container
+    const navBar = document.querySelector('#navigation-bar');
+    if (!navBar) {
+      console.warn("[Nav Buttons Highlighter] Navigation bar not found");
+      return;
+    }
+
+    console.log("[Nav Buttons Highlighter] Forcing navigation visibility");
+
+    // Make all list items visible
+    const items = navBar.querySelectorAll('li');
+    items.forEach(item => {
+      item.style.display = 'inline-flex';
+      item.style.visibility = 'visible';
+      item.style.opacity = '1';
+    });
+
+    // Hide any dropdown buttons
+    document.querySelectorAll('[data-identifier="navigation-menu"]').forEach(btn => {
+      btn.style.display = 'none';
     });
   }
 
-  // Initial setup
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => {
-      requestAnimationFrame(updateStyles);
-    }, { once: true });
-  } else {
-    requestAnimationFrame(updateStyles);
-  }
+  // Apply on page load and navigation changes
+  api.onPageChange(() => {
+    requestAnimationFrame(() => {
+      applyStyles();
+      forceNavVisibility();
+    });
+  });
 });
