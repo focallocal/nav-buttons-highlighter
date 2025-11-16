@@ -1,20 +1,30 @@
 import { apiInitializer } from "discourse/lib/api";
-import { helperContext } from "discourse-common/lib/helpers";
 
 export default apiInitializer("1.14.0", (api) => {
-  const settings = helperContext()?.themeSettings;
+  console.log("[Nav Buttons Highlighter] Initializer loaded");
+  
+  // Try multiple methods to access settings
+  let settings;
+  try {
+    // Method 1: Try getting from container
+    const themeId = api.container.lookup("service:site").get("theme_id");
+    settings = api.container.lookup(`theme-settings:${themeId}`);
+    console.log("[Nav Buttons Highlighter] Settings from container:", settings);
+  } catch (e) {
+    console.warn("[Nav Buttons Highlighter] Could not get settings from container:", e);
+  }
   
   if (!settings) {
-    console.error("[Nav Buttons Highlighter] Theme settings not available");
-    return;
+    console.error("[Nav Buttons Highlighter] Theme settings not available - component may not work");
+    // Continue anyway with CSS fallback
   }
 
-  console.log("[Nav Buttons Highlighter] Settings loaded:", {
-    pairs: settings.nav_button_color_pairs,
-    outline: settings.active_outline_color
-  });
-
   function applyStyles() {
+    if (!settings) {
+      console.log("[Nav Buttons Highlighter] No settings, skipping style injection");
+      return;
+    }
+    
     const colorPairs = settings.nav_button_color_pairs || [];
     const outlineColor = settings.active_outline_color || "rgba(255,255,255,0.85)";
 
