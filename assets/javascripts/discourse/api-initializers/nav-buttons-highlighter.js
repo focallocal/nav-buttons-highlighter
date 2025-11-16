@@ -3,6 +3,21 @@ import { apiInitializer } from "discourse/lib/api";
 export default apiInitializer("1.8.0", (api) => {
   const STYLE_ID = "nav-button-color-overrides";
   const ANCHOR_TOKEN = /(^|[>+~\s])a([.#:[\s>+~]|$)/i;
+  
+  // Get settings from the global settings object injected by Discourse
+  const getSettings = () => {
+    try {
+      // Try to get from window first (where Discourse injects theme settings)
+      if (window.theme_settings && window.theme_settings.nav_button_color_pairs !== undefined) {
+        return window.theme_settings;
+      }
+      // Fallback to checking if settings were passed another way
+      return api.container.lookup("service:theme-settings") || {};
+    } catch (e) {
+      console.error("[Nav Buttons Highlighter] Could not access settings:", e);
+      return {};
+    }
+  };
 
   function dedupe(list) {
     return Array.from(new Set((list || []).filter(Boolean)));
@@ -138,7 +153,12 @@ export default apiInitializer("1.8.0", (api) => {
   }
 
   function parseRules() {
+    const settings = getSettings();
     const current = settings.nav_button_color_pairs;
+    
+    // Debug logging
+    console.log("[Nav Buttons Highlighter] Settings:", settings);
+    console.log("[Nav Buttons Highlighter] Color pairs:", current);
 
     if (Array.isArray(current)) {
       return current
@@ -150,6 +170,7 @@ export default apiInitializer("1.8.0", (api) => {
     }
 
     if (!current) {
+      console.warn("[Nav Buttons Highlighter] No color pairs configured");
       return [];
     }
 
@@ -176,8 +197,28 @@ export default apiInitializer("1.8.0", (api) => {
 
   function preventDropdownBehavior() {
     // Force navigation items to be visible on mobile
-    const navBar = document.querySelector('#navigation-bar');
-    if (!navBar) return;
+    const navSelectors = [
+      '#navigation-bar',
+      '.category-navigation',
+      '.nav-pills',
+      'ul.nav.nav-pills',
+      '.navigation-container'
+    ];
+    
+    // First, make sure navigation containers are visible
+    navSelectors.forEach(selector => {
+      const containers = document.querySelectorAll(selector);
+      containers.forEach(container => {
+        if (container) {
+          container.style.display = 'flex';
+          container.style.flexWrap = 'wrap';
+          container.style.visibility = 'visible';
+          container.style.opacity = '1';
+          container.style.height = 'auto';
+          container.style.overflow = 'visible';
+        }
+      });
+    });
 
     // Hide any dropdown toggle buttons and menus
     const dropdownElements = document.querySelectorAll(
@@ -193,18 +234,36 @@ export default apiInitializer("1.8.0", (api) => {
     });
 
     // Make sure all list items in navigation are visible
-    const listItems = navBar.querySelectorAll('li');
-    listItems.forEach(item => {
-      // Don't show dropdown trigger items themselves
-      if (item.classList.contains('list-control-toggle-link-trigger') || 
-          item.querySelector('.fk-d-menu__trigger')) {
-        item.style.display = 'none';
-      } else {
-        // Force navigation items to be visible
-        item.style.display = 'inline-flex';
-        item.style.visibility = 'visible';
-        item.style.opacity = '1';
-      }
+    const allNavContainers = document.querySelectorAll(
+      '#navigation-bar, .nav-pills, ul.nav.nav-pills, .navigation-container'
+    );
+    
+    allNavContainers.forEach(navBar => {
+      if (!navBar) return;
+      
+      const listItems = navBar.querySelectorAll('li');
+      listItems.forEach(item => {
+        // Don't show dropdown trigger items themselves
+        if (item.classList.contains('list-control-toggle-link-trigger') || 
+            item.querySelector('.fk-d-menu__trigger')) {
+          item.style.display = 'none';
+        } else {
+          // Force navigation items to be visible
+          item.style.display = 'inline-flex';
+          item.style.visibility = 'visible';
+          item.style.opacity = '1';
+          item.style.height = 'auto';
+          item.style.maxHeight = 'none';
+          
+          // Also make sure the links inside are visible
+          const link = item.querySelector('a');
+          if (link) {
+            link.style.display = 'inline-flex';
+            link.style.visibility = 'visible';
+            link.style.opacity = '1';
+          }
+        }
+      });
     });
   }
 
@@ -213,16 +272,21 @@ export default apiInitializer("1.8.0", (api) => {
     const rules = parseRules();
 
     if (!rules.length) {
+      console.warn("[Nav Buttons Highlighter] No valid rules to inject");
       tag.textContent = "";
       return;
     }
 
+    const settings = getSettings();
     const outlineColor = settings.active_outline_color || "rgba(255,255,255,0.85)";
 
-    tag.textContent = rules
+    const cssContent = rules
       .map(({ selector, color }) => buildCssBlock(selector, color, outlineColor))
       .filter(Boolean)
       .join("\n");
+    
+    tag.textContent = cssContent;
+    console.log("[Nav Buttons Highlighter] Injected CSS for", rules.length, "rules");
   }
 
   function updateStyles() {

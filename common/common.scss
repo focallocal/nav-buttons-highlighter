@@ -11,52 +11,77 @@
 
 /* Force navigation to be visible and prevent dropdown behavior */
 @media screen and (max-width: 767px) {
-  /* Hide all dropdown-related elements */
+  /* Hide ONLY the dropdown trigger buttons, not the navigation itself */
+  #navigation-bar .list-control-toggle-link-trigger,
+  .fk-d-menu__trigger,
+  .fk-d-menu-modal.list-control-toggle-link-content,
+  .fk-d-menu[data-identifier="navigation-menu"],
   .category-navigation .navigation-toggle,
   .category-navigation .dropdown-select-box,
-  .category-navigation .combo-box,
-  #navigation-bar .list-control-toggle-link-trigger,
-  #navigation-bar .fk-d-menu__trigger,
-  .fk-d-menu-modal.list-control-toggle-link-content,
-  .fk-d-menu[data-identifier="navigation-menu"] {
+  .category-navigation .combo-box {
     display: none !important;
     visibility: hidden !important;
     pointer-events: none !important;
   }
   
-  /* Ensure navigation bars are always visible */
-  .category-navigation {
+  /* FORCE the navigation container to be visible even if Discourse tries to hide it */
+  .category-navigation,
+  .category-navigation .nav,
+  #navigation-bar,
+  .navigation-container,
+  ul.nav.nav-pills {
     display: flex !important;
+    flex-wrap: wrap !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    height: auto !important;
+    overflow: visible !important;
+    position: relative !important;
+  }
+  
+  .category-navigation {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
   }
   
   #navigation-bar,
-  .category-navigation .nav-pills {
-    display: flex !important;
-    flex-wrap: wrap !important;
+  .category-navigation .nav-pills,
+  ul.nav.nav-pills {
     justify-content: center;
     gap: 0.5rem;
     margin: 0;
-    padding: 0;
+    padding: 0.5rem;
     max-width: 100%;
-    overflow: visible !important;
   }
   
-  /* Force all navigation items to be visible */
+  /* Force ALL navigation list items to be visible - very aggressive */
   #navigation-bar > li,
-  .category-navigation .nav-pills > li {
+  .category-navigation .nav-pills > li,
+  ul.nav.nav-pills > li,
+  .navigation-container li {
     list-style: none;
     display: inline-flex !important;
     visibility: visible !important;
     opacity: 1 !important;
     position: static !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+  }
+  
+  /* Don't show the dropdown trigger items themselves */
+  li.list-control-toggle-link-trigger,
+  li:has(.fk-d-menu__trigger) {
+    display: none !important;
   }
   
   #navigation-bar > li > a,
-  .category-navigation .nav-pills > li > a {
+  .category-navigation .nav-pills > li > a,
+  ul.nav.nav-pills > li > a {
     display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
     align-items: center;
     justify-content: center;
     padding: 0.35rem 0.75rem;
