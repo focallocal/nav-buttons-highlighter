@@ -1,5 +1,5 @@
 /* Fallback: Apply basic styling if JavaScript fails */
-/* Users can override colors via theme settings or custom CSS */
+/* Style the specific navigation links we care about */
 
 /* Force navigation visibility on all screen sizes */
 #navigation-bar,
@@ -30,6 +30,33 @@
         font-weight: 600;
       }
     }
+  }
+}
+
+/* Default styling for specific navigation links - these will be overridden by JavaScript if settings are loaded */
+a.kanban-nav {
+  background-color: #4CAF50 !important;
+  color: #fff !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+}
+
+a.docs {
+  background-color: #87CEEB !important;
+  color: #fff !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+  font-weight: 500 !important;
+  
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 }
 
