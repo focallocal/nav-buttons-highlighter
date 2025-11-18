@@ -1,5 +1,5 @@
 {
-  "name": "Nav Buttons Highlighter",
+  "name": "Nav Buttons Highlighter Fresh",
   "component": true,
   "authors": [
     "Andy@Focallocal"
@@ -7,6 +7,6 @@
   "meta_url": "https://publichappinessmovement.com",
   "about_url": "https://github.com/focallocal/nav-buttons-highlighter",
   "license_url": "https://opensource.org/licenses/MIT",
-  "theme_version": "1.0.0",
+  "theme_version": "2.0.0",
   "minimum_discourse_version": "2.8.0"
 }
