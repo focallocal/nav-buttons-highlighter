@@ -1,14 +1,25 @@
 ﻿# Nav Buttons Highlighter
 
-A Discourse theme component that highlights navigation buttons with beautiful 3D styling. Fully CSS-based for reliability and ease of customization.
+A Discourse theme component that highlights navigation buttons to guide users toward specific paths or functions you want them to follow, and makes the mobile dropdown menu more clear and visible.
+
+## Purpose
+
+This component helps you:
+- **Guide users** by highlighting important navigation links (e.g., your task board, documentation, or key categories)
+- **Improve mobile UX** by making the dropdown navigation button stand out
+- **Create visual hierarchy** in your navigation bar
 
 ## Features
 
 -  Beautiful 3D button styling with gradients, shadows, and hover effects
--  Mobile-responsive - highlights the "Latest" dropdown toggle on mobile
--  Highlights the Tasks button (`a.kanban-nav`) by default
--  CSS-only implementation - no JavaScript required
--  Easy to customize - just edit the CSS file
+-  Mobile-responsive - highlights the "Latest" dropdown toggle button on mobile
+-  Pre-configured for Discourse Kanban plugin by default
+-  CSS-only implementation - reliable and lightweight
+-  Easy to customize - detailed instructions included
+
+## Default Configuration
+
+By default, this component is set up to highlight the **Discourse Kanban** plugin ([learn more](https://meta.discourse.org/t/kanban-board/)) in **BLUE**. However, it can easily be changed to highlight any navigation link you choose.
 
 ## Installation
 
@@ -19,42 +30,84 @@ A Discourse theme component that highlights navigation buttons with beautiful 3D
    ```
 3. Once installed, add the component to your active theme.
 
-## Customization
+## How to Customize
 
-**This component has NO admin settings** - all customization is done by editing the CSS file directly.
+### Finding the CSS Editor
 
-### How to Customize Colors & Buttons
+**There is NO admin settings panel for this component** - all customization is done by editing the CSS file:
 
 1. Go to **Admin  Customize  Themes**
 2. Click on **Nav Buttons Highlighter**
-3. Click the **CSS** tab at the top
-4. Click **Edit CSS** next to "Common"
-5. The file `common/common.scss` will open with detailed instructions in the comments
+3. Click **Edit CSS/HTML** at the top
+4. In the left sidebar, click **common** under the "CSS" section
+5. The file `common.scss` will open with detailed customization instructions
 
-### Quick Example - Change to Blue
+### Common Customizations
 
-Find the green color values in the CSS and replace with blue:
-- Change `#4CAF50`  `#007bff` (main color)
-- Change `#5cb860`  `#4da3ff` (light shade)
-- Change `#45a049`  `#0056b3` (dark shade)
-- Change RGB `76, 175, 80`  `0, 123, 255` (for shadows)
+#### Change Color from Blue to Green
 
-The CSS file contains detailed comments with more examples!
+Find and replace these color values in the CSS:
 
-## Direct CSS Edit Link
+**BLUE (current default):**
+- `#4285F4`  `#4CAF50`
+- `#5ca3ff`  `#5cb860`
+- `#3a75e4`  `#45a049`
+- `rgba(66, 133, 244`  `rgba(76, 175, 80`
 
-Once installed, you can access the CSS editor directly at:
+#### Highlight a Different Button
+
+Replace the selector `a.kanban-nav` with your target link:
+
+**Examples:**
+- `a[href="/c/category-name"]` - Highlight a specific category
+- `a[href="/tags/tag-name"]` - Highlight a specific tag  
+- `a[href="/my-custom-page"]` - Highlight any custom link
+- `#navigation-bar > li:nth-child(2) > a` - Highlight the 2nd navigation button
+
+**How to find the selector:**
+1. Open your forum in a browser
+2. Right-click the link you want to highlight
+3. Select "Inspect Element"
+4. Look for class names (e.g., `class="kanban-nav"`) or href values in the HTML
+
+#### Disable Mobile Dropdown Highlighting
+
+Find the section labeled `/* Latest dropdown button on mobile */` and either:
+- Delete the entire section, OR
+- Comment it out by wrapping it in `/* ... */`
+
+#### Highlight Links Inside the Mobile Dropdown
+
+Add this CSS block after the existing styles:
+
+```scss
+.fk-d-menu-modal a.kanban-nav {
+  background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%) !important;
+  color: #fff !important;
+  padding: 8px 16px !important;
+  border-radius: 8px !important;
+}
 ```
-https://[YOUR-FORUM-URL]/admin/customize/themes/[THEME_ID]/common/scss/edit
-```
-Replace `[YOUR-FORUM-URL]` with your forum domain and `[THEME_ID]` with the theme ID (visible in your browser URL when viewing the theme).
+
+Replace `a.kanban-nav` with your desired selector.
 
 ## Development
 
 This repository contains:
-- `common/common.scss`  All button styling and customization
+- `common/common.scss`  All button styling and detailed customization guide
 - `assets/javascripts/discourse/api-initializers/nav-buttons-highlighter.js`  Minimal initializer (required for Discourse)
 - `about.json`  Component metadata
+
+## Troubleshooting
+
+**Q: I don''t see an "Edit CSS" button**  
+A: Look for "Edit CSS/HTML" at the top of the theme page, then click "common" in the CSS section of the left sidebar.
+
+**Q: Changes aren''t appearing**  
+A: After editing, click "Save" and hard-refresh your forum page (Ctrl+F5 or Cmd+Shift+R).
+
+**Q: I want to highlight multiple buttons**  
+A: Copy the entire button CSS block and paste it below, then change the selector and optionally the colors.
 
 ## License
 

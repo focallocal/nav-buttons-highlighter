@@ -2,58 +2,84 @@
    NAV BUTTONS HIGHLIGHTER - THEME COMPONENT
    ============================================
    
-   📝 YOU ARE IN THE RIGHT PLACE TO CUSTOMIZE!
+   PURPOSE:
+   This component helps guide users by highlighting important navigation links
+   and making the mobile dropdown menu more visible and clear.
    
-   This file controls all button colors and styles.
-   Scroll down to see the Tasks button example, then
-   copy/paste it to create your own custom buttons.
+   📝 CUSTOMIZATION GUIDE - YOU ARE IN THE RIGHT PLACE!
    
-   HOW TO ADD MORE COLORED BUTTONS:
+   DEFAULT SETUP:
+   By default, this component is configured to highlight the Discourse Kanban plugin
+   (https://meta.discourse.org/t/kanban-board/) in BLUE. You can easily change this
+   to highlight any navigation link you want users to follow.
    
-   1. Find the CSS selector for your link:
-      - Right-click the navigation link in your browser
-      - Choose "Inspect Element"
-      - Look for class names or href attributes
    
-   2. Copy the Tasks button CSS below and modify:
-      - Replace "a.kanban-nav" with your selector
-      - Change the color values (search/replace the RGB values)
+   HOW TO CHANGE COLORS:
    
-   EXAMPLE - To add a blue "Docs" button:
+   To change from BLUE to GREEN (or any color):
+   1. Find all instances of the blue color values below
+   2. Replace them with your preferred color
    
-   a[href="/docs"] {
-     background: linear-gradient(135deg, #5cb8f4 0%, #4285F4 50%, #3a75e4 100%) !important;
-     color: #fff !important;
-     ... (copy rest of styles from Tasks button below)
-     box-shadow:
-       0 4px 8px rgba(66, 133, 244, 0.4),  // Change RGB to match your color
-       ... etc
-   }
+   BLUE (current default):
+   - Main: #4285F4
+   - Light: #5ca3ff  
+   - Dark: #3a75e4
+   - RGB for shadows: 66, 133, 244
    
-   COLOR EXAMPLES:
-   - Green (Tasks): rgb(76, 175, 80)
-   - Blue: rgb(66, 133, 244)  
-   - Red: rgb(244, 67, 54)
-   - Orange: rgb(255, 152, 0)
-   - Purple: rgb(156, 39, 176)
+   GREEN example:
+   - Main: #4CAF50
+   - Light: #5cb860
+   - Dark: #45a049
+   - RGB for shadows: 76, 175, 80
+   
+   Other color suggestions:
+   - Red: #F44336 (light: #ff6659, dark: #d32f2f, RGB: 244, 67, 54)
+   - Orange: #FF9800 (light: #ffb74d, dark: #f57c00, RGB: 255, 152, 0)
+   - Purple: #9C27B0 (light: #ba68c8, dark: #7b1fa2, RGB: 156, 39, 176)
+   
+   
+   HOW TO HIGHLIGHT DIFFERENT BUTTONS:
+   
+   1. Find the CSS selector for your target link:
+      - Open your forum in a browser
+      - Right-click the navigation link you want to highlight
+      - Select "Inspect Element"
+      - Look for class names or href attributes in the HTML
+   
+   2. Replace "a.kanban-nav" below with your selector
+   
+   Common selectors:
+   - a.kanban-nav (Kanban plugin)
+   - a[href="/c/category-name"] (specific category)
+   - a[href="/tags/tag-name"] (specific tag)
+   - #navigation-bar > li:nth-child(2) > a (2nd navigation button)
+   
+   
+   MOBILE DROPDOWN CUSTOMIZATION:
+   
+   The second section below styles the mobile "Latest" dropdown button.
+   - To DISABLE mobile dropdown highlighting: Delete or comment out that entire section
+   - To change its color: Use the same color values as your main button
+   - To highlight links INSIDE the dropdown: Add a new CSS block with selector like:
+     .fk-d-menu-modal a.kanban-nav { ...styles... }
    
    ============================================ */
 
-/* Tasks button - Green (Desktop & Mobile) */
+/* Kanban button - Blue (Desktop & Mobile) */
 a.kanban-nav {
-  background: linear-gradient(135deg, #5cb860 0%, #4CAF50 50%, #45a049 100%) !important;  
+  background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%) !important;  
   color: #fff !important;
   padding: 10px 20px !important;
   border-radius: 12px !important;
   font-weight: 600 !important;
   box-shadow:
-    0 4px 8px rgba(76, 175, 80, 0.4),
+    0 4px 8px rgba(66, 133, 244, 0.4),
     0 2px 4px rgba(0, 0, 0, 0.1),
     inset 0 1px 2px rgba(255, 255, 255, 0.5),
     inset 0 -1px 2px rgba(0, 0, 0, 0.1),
-    inset 0 0 10px rgba(139, 255, 143, 0.15) !important;
+    inset 0 0 10px rgba(135, 180, 255, 0.15) !important;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
-  border: 1px solid rgba(92, 184, 96, 0.9) !important;
+  border: 1px solid rgba(92, 163, 255, 0.9) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative;
   overflow: hidden;
@@ -72,12 +98,12 @@ a.kanban-nav {
   &:hover {
     transform: translateY(-3px) scale(1.02) !important;
     box-shadow:
-      0 10px 20px rgba(76, 175, 80, 0.5),
+      0 10px 20px rgba(66, 133, 244, 0.5),
       0 6px 12px rgba(0, 0, 0, 0.15),
       inset 0 1px 3px rgba(255, 255, 255, 0.6),
-      inset 0 0 12px rgba(139, 255, 143, 0.25) !important;
-    background: linear-gradient(135deg, #66c26a 0%, #5cb860 50%, #52b356 100%) !important;
-    border-color: rgba(102, 194, 106, 1) !important;
+      inset 0 0 12px rgba(135, 180, 255, 0.25) !important;
+    background: linear-gradient(135deg, #6bb0ff 0%, #5ca3ff 50%, #4d94ff 100%) !important;
+    border-color: rgba(107, 176, 255, 1) !important;
 
     &:before {
       left: 100%;
@@ -87,27 +113,27 @@ a.kanban-nav {
   &:active {
     transform: translateY(-1px) scale(0.98) !important;
     box-shadow:
-      0 3px 6px rgba(76, 175, 80, 0.4),
+      0 3px 6px rgba(66, 133, 244, 0.4),
       inset 0 1px 2px rgba(255, 255, 255, 0.3),
-      inset 0 0 8px rgba(139, 255, 143, 0.1) !important;
+      inset 0 0 8px rgba(135, 180, 255, 0.1) !important;
   }
 }
 
-/* Latest dropdown button on mobile - Green */
+/* Latest dropdown button on mobile - Blue */
 .fk-d-menu__trigger.list-control-toggle-link-trigger,
 button.list-control-toggle-link-trigger {
-  background: linear-gradient(135deg, #5cb860 0%, #4CAF50 50%, #45a049 100%) !important;  
+  background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%) !important;  
   color: #fff !important;
   padding: 10px 20px !important;
   border-radius: 12px !important;
   font-weight: 600 !important;
   box-shadow:
-    0 4px 8px rgba(76, 175, 80, 0.4),
+    0 4px 8px rgba(66, 133, 244, 0.4),
     0 2px 4px rgba(0, 0, 0, 0.1),
     inset 0 1px 2px rgba(255, 255, 255, 0.5),
     inset 0 -1px 2px rgba(0, 0, 0, 0.1),
-    inset 0 0 10px rgba(139, 255, 143, 0.15) !important;
-  border: 1px solid rgba(92, 184, 96, 0.9) !important;
+    inset 0 0 10px rgba(135, 180, 255, 0.15) !important;
+  border: 1px solid rgba(92, 163, 255, 0.9) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   min-width: 120px !important;
   
@@ -118,19 +144,19 @@ button.list-control-toggle-link-trigger {
   &:hover {
     transform: translateY(-2px) scale(1.02) !important;
     box-shadow:
-      0 8px 16px rgba(76, 175, 80, 0.5),
+      0 8px 16px rgba(66, 133, 244, 0.5),
       0 4px 8px rgba(0, 0, 0, 0.15),
       inset 0 1px 3px rgba(255, 255, 255, 0.6),
-      inset 0 0 12px rgba(139, 255, 143, 0.25) !important;
-    background: linear-gradient(135deg, #66c26a 0%, #5cb860 50%, #52b356 100%) !important;
-    border-color: rgba(102, 194, 106, 1) !important;
+      inset 0 0 12px rgba(135, 180, 255, 0.25) !important;
+    background: linear-gradient(135deg, #6bb0ff 0%, #5ca3ff 50%, #4d94ff 100%) !important;
+    border-color: rgba(107, 176, 255, 1) !important;
   }
 
   &:active {
     transform: translateY(-1px) scale(0.98) !important;
     box-shadow:
-      0 3px 6px rgba(76, 175, 80, 0.4),
+      0 3px 6px rgba(66, 133, 244, 0.4),
       inset 0 1px 2px rgba(255, 255, 255, 0.3),
-      inset 0 0 8px rgba(139, 255, 143, 0.1) !important;
+      inset 0 0 8px rgba(135, 180, 255, 0.1) !important;
   }
 }
