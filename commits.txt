@@ -1,0 +1,20 @@
+﻿264b20694d5ea08bad0e127ad84a82ca20781d20 Public Happiness Andy focallocal.london@gmail.com Restore working about.json structure from v1.0.0, bump to v1.0.5
+bcad660635d97ec2544b3d360312791ce81b5f2c Public Happiness Andy focallocal.london@gmail.com Fix UTF-8 encoding in about.json, bump to v1.0.4
+7f9cf600544b7fa8f2d1e31f5678cdaec3e33352 Public Happiness Andy focallocal.london@gmail.com Set apiInitializer to 1.8.0 for Discourse compatibility
+e5bbecd4a4a8912e60eaccc9c681e0ae2b88dd6d Public Happiness Andy focallocal.london@gmail.com Simplify to CSS-only customization - remove settings, keep minimal JS for loading
+c4418d6928857c242f4765024122379650ea1189 Public Happiness Andy focallocal.london@gmail.com Restore working JavaScript and settings.yml
+81b75fc35925d200e4d4ca40848e8c705ed57531 Public Happiness Andy focallocal.london@gmail.com v1.0.3: Bump version to force refresh
+0b5390695f848c442cb4f68f3d52a357cea1c0a3 Public Happiness Andy focallocal.london@gmail.com v1.0.2: Clean UTF-8 encoding for about.json
+991942df321c6489daf3c3ce5b121d6b3eebfd70 Public Happiness Andy focallocal.london@gmail.com Force refresh: Add compatibility marker
+8db719b53f23521b542625fde29a21de41605643 Public Happiness Andy focallocal.london@gmail.com v1.0.1: Add clear customization instructions and CUSTOMIZATION.md guide
+56b13f2cff953b891772a5ae35e6daa5304b6a51 Public Happiness Andy focallocal.london@gmail.com Fix: Remove invalid JSON formatting in about.json
+105d7c0a2ea7a22bc2f4cb190ba11977c08e63cc Public Happiness Andy focallocal.london@gmail.com Complete CSS-only redesign: Add guide comments, remove settings, update docs
+73d5b7f7d65a0cc5f45d6e7343c44656ba1b022f Public Happiness Andy focallocal.london@gmail.com Add green styling to mobile menu toggle button, remove non-working JavaScript
+a5ada31ce676ba87cc4becb93828acc5bc44de49 Public Happiness Andy focallocal.london@gmail.com Add working JavaScript with modern api-initializer for settings-driven button styling
+fa96fda4f9e37728f6dab67e50b0a18f4191c130 Public Happiness Andy focallocal.london@gmail.com Fix: Reduce inner glow 50%, revert mobile dropdown changes - Settings not functional yet (CSS-only)
+83d407bb387b83af449ac842f6fe0d548c3186df Public Happiness Andy focallocal.london@gmail.com Vibrant button with inner glow + fix 640px mobile dropdown
+c119fd8448f3aafc0cdbd562661d8a8e22733c49 Public Happiness Andy focallocal.london@gmail.com Modern 3D button design + fix mobile visibility
+3444fdd6ab86a5092f47c2e5ebc934128bc01825 Public Happiness Andy focallocal.london@gmail.com Remove JavaScript - CSS-only component
+fc9d0e7ea80f60cecea3f2871affc3cc6672b5c9 Public Happiness Andy focallocal.london@gmail.com Simplify JS to minimal test version
+86d17af8e4b8b4add26b8f9358a6924c5f754051 Public Happiness Andy focallocal.london@gmail.com Add hardcoded CSS styling for kanban-nav and docs links
+b87574bacedead0ee519d02f5b11ab031d497f8e Public Happiness Andy focallocal.london@gmail.com Fix: Remove helperContext import that was breaking the component
