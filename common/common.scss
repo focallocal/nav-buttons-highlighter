@@ -2,66 +2,70 @@
    NAV BUTTONS HIGHLIGHTER - THEME COMPONENT
    ============================================
    
-   PURPOSE:
-   This component helps guide users by highlighting important navigation links
-   and making the mobile dropdown menu more visible and clear.
+   📝 QUICK START - WHAT TO CHANGE:
    
-   📝 CUSTOMIZATION GUIDE - YOU ARE IN THE RIGHT PLACE!
+   1. TO HIGHLIGHT A DIFFERENT LINK:
+      - Find the line: a.kanban-nav {
+      - Replace "a.kanban-nav" with your link's selector (see guide below)
    
-   DEFAULT SETUP:
-   By default, this component is configured to highlight the Discourse Kanban plugin
-   (https://meta.discourse.org/t/kanban-board/) in BLUE. You can easily change this
-   to highlight any navigation link you want users to follow.
+   2. TO CHANGE THE COLOR:
+      - Find these 3 lines and replace the hex codes:
+        * Line ~69: background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%)
+        * Line ~88: background: linear-gradient(135deg, #6bb0ff 0%, #5ca3ff 50%, #4d94ff 100%)
+        * Line ~103: background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%)
+      - Also update the border color on line ~74: border: 1px solid rgba(92, 163, 255, 0.9)
    
-   
-   HOW TO CHANGE COLORS:
-   
-   To change from BLUE to GREEN (or any color):
-   1. Find all instances of the blue color values below
-   2. Replace them with your preferred color
-   
-   BLUE (current default):
-   - Main: #4285F4
-   - Light: #5ca3ff  
-   - Dark: #3a75e4
-   - RGB for shadows: 66, 133, 244
-   
-   GREEN example:
-   - Main: #4CAF50
-   - Light: #5cb860
-   - Dark: #45a049
-   - RGB for shadows: 76, 175, 80
-   
-   Other color suggestions:
-   - Red: #F44336 (light: #ff6659, dark: #d32f2f, RGB: 244, 67, 54)
-   - Orange: #FF9800 (light: #ffb74d, dark: #f57c00, RGB: 255, 152, 0)
-   - Purple: #9C27B0 (light: #ba68c8, dark: #7b1fa2, RGB: 156, 39, 176)
+   3. TO REMOVE MOBILE DROPDOWN HIGHLIGHTING:
+      - Delete everything from line ~97 to the end of the file
    
    
-   HOW TO HIGHLIGHT DIFFERENT BUTTONS:
-   
-   1. Find the CSS selector for your target link:
-      - Open your forum in a browser
-      - Right-click the navigation link you want to highlight
-      - Select "Inspect Element"
-      - Look for class names or href attributes in the HTML
-   
-   2. Replace "a.kanban-nav" below with your selector
-   
-   Common selectors:
-   - a.kanban-nav (Kanban plugin)
-   - a[href="/c/category-name"] (specific category)
-   - a[href="/tags/tag-name"] (specific tag)
-   - #navigation-bar > li:nth-child(2) > a (2nd navigation button)
+   ============================================
+   DETAILED GUIDES BELOW
+   ============================================
    
    
-   MOBILE DROPDOWN CUSTOMIZATION:
+   HOW TO FIND THE RIGHT SELECTOR FOR YOUR LINK:
    
-   The second section below styles the mobile "Latest" dropdown button.
-   - To DISABLE mobile dropdown highlighting: Delete or comment out that entire section
-   - To change its color: Use the same color values as your main button
-   - To highlight links INSIDE the dropdown: Add a new CSS block with selector like:
-     .fk-d-menu-modal a.kanban-nav { ...styles... }
+   Step 1: Open your forum and find the navigation link you want to highlight
+   Step 2: Right-click it and select "Inspect" or "Inspect Element"  
+   Step 3: In the HTML, look for the <a> tag and note:
+           - Any class names: class="kanban-nav" → use: a.kanban-nav
+           - The href value: href="/c/support" → use: a[href="/c/support"]
+   Step 4: Replace "a.kanban-nav" on line ~68 with your selector
+   
+   COMMON EXAMPLES:
+   - Kanban plugin: a.kanban-nav
+   - Support category: a[href="/c/support"]
+   - Documentation tag: a[href="/tags/documentation"]  
+   - Custom page: a[href="/my-page"]
+   - Second nav button: #navigation-bar > li:nth-child(2) > a
+   
+   
+   HOW TO CHANGE COLORS (BLUE → GREEN example):
+   
+   Find and Replace these values throughout this file:
+   
+   BLUE (current):          →    GREEN (replacement):
+   #4285F4                  →    #4CAF50
+   #5ca3ff                  →    #5cb860
+   #3a75e4                  →    #45a049
+   #6bb0ff                  →    #66c26a
+   #4d94ff                  →    #52b356
+   92, 163, 255             →    92, 184, 96
+   107, 176, 255            →    102, 194, 106
+   
+   OTHER COLOR OPTIONS:
+   Red: #F44336, #ff6659, #d32f2f (RGB: 244, 67, 54)
+   Orange: #FF9800, #ffb74d, #f57c00 (RGB: 255, 152, 0)
+   Purple: #9C27B0, #ba68c8, #7b1fa2 (RGB: 156, 39, 176)
+   
+   
+   MOBILE DROPDOWN BUTTON:
+   
+   The second CSS block (starting around line ~97) styles the "Latest" dropdown
+   on mobile devices. To change its color, use the same values as your main button.
+   To remove it entirely, delete that whole section.
+   
    
    ============================================ */
 

@@ -38,9 +38,7 @@ By default, this component is set up to highlight the **Discourse Kanban** plugi
 
 1. Go to **Admin  Customize  Themes**
 2. Click on **Nav Buttons Highlighter**
-3. Click **Edit CSS/HTML** at the top
-4. In the left sidebar, click **common** under the "CSS" section
-5. The file `common.scss` will open with detailed customization instructions
+3. Look for the **Common** tab in the horizontal menu near the top\r\n4. Click on **Common**\r\n5. The CSS editor will open showing `common.scss` with detailed customization instructions
 
 ### Common Customizations
 
