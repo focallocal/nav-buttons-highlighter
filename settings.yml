@@ -3,7 +3,7 @@ highlighted_buttons:
   default: 
     - selector: a.kanban-nav
       color: "#4285F4"
-      label: "Kanban Tasks Button"
+      label: "Kanban Tasks Button (BLUE - from admin settings)"
   description: "Configure which navigation buttons to highlight. Add multiple buttons by clicking 'Add Item'."
   schema:
     name: highlighted_buttons
@@ -14,8 +14,8 @@ highlighted_buttons:
         description: "CSS selector for the button (e.g., a.kanban-nav or a[href='/tasks'])"
       color:
         type: string
-        default: "#4285F4"
-        description: "Base color for the button gradient (hex format)"
+        default: "#4CAF50"
+        description: "Base color for the button gradient (hex format) - GREEN default for testing"
       label:
         type: string
         description: "Descriptive name for this button (for your reference only)"
