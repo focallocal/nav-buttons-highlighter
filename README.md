@@ -32,94 +32,62 @@ By default, this component is set up to highlight the **Discourse Kanban** plugi
 
 ## How to Customize
 
-### Finding the CSS File
+### Admin Settings Panel
 
-**There is NO admin settings panel for this component** - all customization is done by editing the CSS file directly in your repository.
+**Version 3.0+ now supports admin configuration!** No forking or CSS editing required.
 
-**The CSS file is located at:**
-```
-common/common.scss
-```
+**To configure the component:**
 
-**How to edit it:**
+1. Go to **Admin → Customize → Themes**
+2. Click on your active theme
+3. Find **Nav Buttons Highlighter** in the Included Components section
+4. Click **Settings** (gear icon)
+5. Configure your highlighted buttons:
+   - **highlighted_buttons**: Add/edit buttons with selector, color, and label
+   - **highlight_mobile_dropdown**: Toggle mobile dropdown highlighting
 
-**Option 1: Edit in GitHub** (easiest)
-1. Fork a version of this repository and install
-2. Navigate to `common/common.scss`
-3. Click the pencil icon to edit
-4. Make your changes and commit
-5. In Discourse Admin → Customize → Components, click "Check for Updates" on the Nav Buttons Highlighter component
+**Finding CSS Selectors:**
 
-**Option 2: Edit locally**
-1. Clone the repository to your computer
-2. Edit `common/common.scss` in any text editor
-3. Commit and push your changes
-4. In Discourse Admin → Customize → Components, click "Check for Updates"
+To highlight different navigation links, you need their CSS selector:
 
-**Notes:**
-- This component works on ALL themes where it's enabled (not tied to a specific theme)
-- The CSS file has detailed inline comments explaining exactly what to change
-- Changes require updating the component in Discourse admin after editing
-
-**The CSS file comments explain:**
-- Which selector to change (e.g., `a.kanban-nav`) to highlight different links
-- Which color values to update for different colors
-- How to add/remove mobile dropdown highlighting
-
-### Common Customisations
-
-#### Change Color from Blue to Green
-
-The button uses three shades of blue to create a gradient effect:
-- **Light blue**: `#5ca3ff` (top of gradient)
-- **Medium blue**: `#4285F4` (middle of gradient)  
-- **Dark blue**: `#3a75e4` (bottom/shadow)
-
-To change to green, find and replace these values in `common/common.scss`:
-
-| Current Blue | Replace With Green |
-|--------------|-------------------|
-| `#5ca3ff` | `#5cb860` |
-| `#4285F4` | `#4CAF50` |
-| `#3a75e4` | `#45a049` |
-| `rgba(66, 133, 244` | `rgba(76, 175, 80` |
-
-#### Highlighting a Different Navigation Link
-
-Replace the selector `a.kanban-nav` with your target link:
-
-**Examples:**
-- `a[href="/c/category-name"]` - Highlight a specific category
-- `a[href="/tags/tag-name"]` - Highlight a specific tag  
-- `a[href="/my-custom-page"]` - Highlight any custom link
-- `#navigation-bar > li:nth-child(2) > a` - Highlight the 2nd navigation button
-
-**How to find the selector:**
 1. Open your forum in a browser
 2. Right-click the link you want to highlight
 3. Select "Inspect Element"
-4. Look for class names (e.g., `class="kanban-nav"`) or href values in the HTML
+4. Look for the `<a>` tag and note:
+   - Class names: `class="kanban-nav"` → use: `a.kanban-nav`
+   - Href value: `href="/c/support"` → use: `a[href="/c/support"]`
 
-#### Disable Mobile Dropdown Highlighting
+**Common Examples:**
+- Kanban plugin: `a.kanban-nav`
+- Support category: `a[href="/c/support"]`
+- Documentation tag: `a[href="/tags/documentation"]`
+- Custom page: `a[href="/my-page"]`
+- Second nav button: `#navigation-bar > li:nth-child(2) > a`
 
-Find the section labeled `/* Latest dropdown button on mobile */` and either:
-- Delete the entire section, OR
-- Comment it out by wrapping it in `/* ... */`
+**Color Selection:**
 
-#### Highlighting Links Inside the Mobile Dropdown
+Use hex color codes (e.g., `#4285F4` for blue). The component automatically generates:
+- Lighter shade for top of gradient
+- Darker shade for bottom/shadow
+- Hover and active state colors
 
-Add this CSS block after the existing styles:
+**Popular Colors:**
+- Blue: `#4285F4` (default)
+- Green: `#4CAF50`
+- Red: `#F44336`
+- Orange: `#FF9800`
+- Purple: `#9C27B0`
 
-```scss
-.fk-d-menu-modal a.kanban-nav {
-  background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%) !important;
-  color: #fff !important;
-  padding: 8px 16px !important;
-  border-radius: 8px !important;
-}
+### Stable CSS-Only Version
+
+If you prefer direct CSS editing, the previous version (2.0.1) is available:
+
+**Install the CSS-only version:**
+```
+https://github.com/focallocal/nav-buttons-highlighter/tree/stable-v2.0.1
 ```
 
-Replace `a.kanban-nav` with your desired selector.
+See that branch's README for CSS editing instructions.
 
 ## Development
 

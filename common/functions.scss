@@ -1,0 +1,84 @@
+/**
+ * String helper functions for parsing Discourse theme settings
+ */
+
+@function str-replace($string, $search, $replace: '') {
+  $index: str-index($string, $search);
+  @if $index {
+    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  }
+  @return $string;
+}
+
+@function str-trim($string) {
+  $start: 1;
+  $end: str-length($string);
+  
+  @while $start <= $end and (str-slice($string, $start, $start) == ' ' or str-slice($string, $start, $start) == '\n') {
+    $start: $start + 1;
+  }
+  
+  @while $end >= $start and (str-slice($string, $end, $end) == ' ' or str-slice($string, $end, $end) == '\n') {
+    $end: $end - 1;
+  }
+  
+  @return str-slice($string, $start, $end);
+}
+
+@function str-split($string, $delimiter) {
+  $result: ();
+  $index: str-index($string, $delimiter);
+  
+  @while $index {
+    $item: str-slice($string, 1, $index - 1);
+    $result: append($result, $item);
+    $string: str-slice($string, $index + str-length($delimiter));
+    $index: str-index($string, $delimiter);
+  }
+  
+  @if str-length($string) > 0 {
+    $result: append($result, $string);
+  }
+  
+  @return $result;
+}
+
+/**
+ * Parses a string of ruby-like key-value pairs into a list of maps.
+ * Format: [{"key1"=>"value1", "key2"=>"value2"}, {"key1"=>"value1","key2"=>"value2"}]
+ *
+ * @param {String} $string - The string of key-value pairs from theme settings.
+ * @return {List} - A list of maps containing the parsed key-value pairs.
+ */
+@function parseObjectSettings($string) {
+  // Remove outer brackets
+  $string: str-slice($string, 2, -2);
+  
+  // Split into individual objects
+  $items: str-split($string, "}, {");
+  $parsedItems: ();
+  
+  @each $item in $items {
+    // Clean up the item
+    $item: str-replace($item, "{", "");
+    $item: str-replace($item, "}", "");
+    $item: str-trim($item);
+    
+    // Split into key-value pairs
+    $pairs: str-split($item, ", ");
+    $map: ();
+    
+    @each $pair in $pairs {
+      $kv: str-split($pair, "=>");
+      @if length($kv) == 2 {
+        $key: str-replace(str-trim(nth($kv, 1)), '"', '');
+        $value: str-replace(str-trim(nth($kv, 2)), '"', '');
+        $map: map-merge($map, ($key: $value));
+      }
+    }
+    
+    $parsedItems: append($parsedItems, $map);
+  }
+  
+  @return $parsedItems;
+}
