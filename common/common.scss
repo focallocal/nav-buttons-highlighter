@@ -15,18 +15,55 @@
    No CSS editing required!
    ============================================ */
 
+// Fallback: Hard-coded green button (if settings fail, you'll see GREEN)
+a.kanban-nav {
+  background: linear-gradient(135deg, #66d96a 0%, #4CAF50 50%, #45a049 100%) !important;  
+  color: #fff !important;
+  padding: 8px 18px !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
+  border: 1px solid rgba(76, 175, 80, 0.9) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);  
+    transition: left 0.5s;
+  }
+
+  &:hover {
+    transform: translateY(-3px) scale(1.02) !important;
+    background: linear-gradient(135deg, #7adf7e 0%, #66d96a 50%, #4CAF50 100%) !important;
+    border-color: rgba(102, 217, 106, 1) !important;
+
+    &:before {
+      left: 100%;
+    }
+  }
+
+  &:active {
+    transform: translateY(-1px) scale(0.98) !important;
+  }
+}
+
+// Try to apply settings-driven styles (will override green if working)
 @import "functions";
 
-// Parse settings
 $buttons: parseObjectSettings(settings('highlighted_buttons'));
 
-// Generate styles for each configured button
 @for $i from 1 through length($buttons) {
   $button: nth($buttons, $i);
   $selector: unquote(map-get($button, 'selector'));
   $color: unquote(map-get($button, 'color'));
   
-  // Calculate gradient shades
   $light: mix(#fff, $color, 15%);
   $dark: mix(#000, $color, 10%);
   $lighter: mix(#fff, $light, 10%);
@@ -70,36 +107,34 @@ $buttons: parseObjectSettings(settings('highlighted_buttons'));
   }
 }
 
-// Mobile dropdown highlighting (if enabled)
-@if settings('highlight_mobile_dropdown') == 'true' {
-  .fk-d-menu__trigger.list-control-toggle-link-trigger,
-  button.list-control-toggle-link-trigger {
-    $color: #4285F4;
-    $light: mix(#fff, $color, 15%);
-    $dark: mix(#000, $color, 10%);
-    $lighter: mix(#fff, $light, 10%);
-    
-    background: linear-gradient(135deg, $light 0%, $color 50%, $dark 100%) !important;  
+// Mobile dropdown
+.fk-d-menu__trigger.list-control-toggle-link-trigger,
+button.list-control-toggle-link-trigger {
+  $color: #4CAF50;
+  $light: mix(#fff, $color, 15%);
+  $dark: mix(#000, $color, 10%);
+  $lighter: mix(#fff, $light, 10%);
+  
+  background: linear-gradient(135deg, $light 0%, $color 50%, $dark 100%) !important;  
+  color: #fff !important;
+  padding: 10px 20px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba($color, 0.9) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  min-width: 120px !important;
+  
+  .d-icon {
     color: #fff !important;
-    padding: 10px 20px !important;
-    border-radius: 12px !important;
-    font-weight: 600 !important;
-    border: 1px solid rgba($color, 0.9) !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    min-width: 120px !important;
-    
-    .d-icon {
-      color: #fff !important;
-    }
+  }
 
-    &:hover {
-      transform: translateY(-2px) scale(1.02) !important;
-      background: linear-gradient(135deg, $lighter 0%, $light 50%, $color 100%) !important;
-      border-color: rgba($light, 1) !important;
-    }
+  &:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    background: linear-gradient(135deg, $lighter 0%, $light 50%, $color 100%) !important;
+    border-color: rgba($light, 1) !important;
+  }
 
-    &:active {
-      transform: translateY(-1px) scale(0.98) !important;
-    }
+  &:active {
+    transform: translateY(-1px) scale(0.98) !important;
   }
 }
