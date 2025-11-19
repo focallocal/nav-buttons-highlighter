@@ -11,20 +11,20 @@ This component helps you:
 
 ## Features
 
--  Beautiful 3D button styling with gradients, shadows, and hover effects
--  Mobile-responsive - highlights the "Latest" dropdown toggle button on mobile
--  Pre-configured for Discourse Kanban plugin by default
--  CSS-only implementation - reliable and lightweight
--  Easy to customize - detailed instructions included
+- 3D button styling with gradients, shadows, and hover effects
+- Mobile-responsive - highlights the "Latest" dropdown toggle button on mobile so users are more clear they can/should click it
+- Pre-configured for Discourse Kanban plugin by default
+- CSS-only implementation - reliable and lightweight
+- Easy to customize
 
 ## Default Configuration
 
-By default, this component is set up to highlight the **Discourse Kanban** plugin ([learn more](https://meta.discourse.org/t/kanban-board/)) in **BLUE**. However, it can easily be changed to highlight any navigation link you choose.
+By default, this component is set up to highlight the **Discourse Kanban** plugin ([link](https://meta.discourse.org/t/kanban-board/)) in **BLUE**. However, it can easily be changed to highlight any navigation link you choose in any colour.
 
 ## Installation
 
-1. In the Discourse Admin console, go to **Customize  Themes  Components** and click **Install**.
-2. Choose **From a Git repository** and paste:
+1. In the Discourse Admin console, go to **Customize → Themes → Components** and click **Install**
+2. Copy from Git repository link and paste:
    ```
    https://github.com/focallocal/nav-buttons-highlighter
    ```
@@ -32,27 +32,59 @@ By default, this component is set up to highlight the **Discourse Kanban** plugi
 
 ## How to Customize
 
-### Finding the CSS Editor
+### Finding the CSS File
 
-**There is NO admin settings panel for this component** - all customization is done by editing the CSS file:
+**There is NO admin settings panel for this component** - all customization is done by editing the CSS file directly in your repository.
 
-1. Go to **Admin  Customize  Themes**
-2. Click on **Nav Buttons Highlighter**
-3. Look for the **Common** tab in the horizontal menu near the top\r\n4. Click on **Common**\r\n5. The CSS editor will open showing `common.scss` with detailed customization instructions
+**The CSS file is located at:**
+```
+common/common.scss
+```
 
-### Common Customizations
+**How to edit it:**
+
+**Option 1: Edit in GitHub** (easiest)
+1. Fork a version of this repository and install
+2. Navigate to `common/common.scss`
+3. Click the pencil icon to edit
+4. Make your changes and commit
+5. In Discourse Admin → Customize → Components, click "Check for Updates" on the Nav Buttons Highlighter component
+
+**Option 2: Edit locally**
+1. Clone the repository to your computer
+2. Edit `common/common.scss` in any text editor
+3. Commit and push your changes
+4. In Discourse Admin → Customize → Components, click "Check for Updates"
+
+**Notes:**
+- This component works on ALL themes where it's enabled (not tied to a specific theme)
+- The CSS file has detailed inline comments explaining exactly what to change
+- Changes require updating the component in Discourse admin after editing
+
+**The CSS file comments explain:**
+- Which selector to change (e.g., `a.kanban-nav`) to highlight different links
+- Which color values to update for different colors
+- How to add/remove mobile dropdown highlighting
+
+### Common Customisations
 
 #### Change Color from Blue to Green
 
-Find and replace these color values in the CSS:
+The button uses three shades of blue to create a gradient effect:
+- **Light blue**: `#5ca3ff` (top of gradient)
+- **Medium blue**: `#4285F4` (middle of gradient)  
+- **Dark blue**: `#3a75e4` (bottom/shadow)
 
-**BLUE (current default):**
-- `#4285F4`  `#4CAF50`
-- `#5ca3ff`  `#5cb860`
-- `#3a75e4`  `#45a049`
-- `rgba(66, 133, 244`  `rgba(76, 175, 80`
+To change to green, find and replace these values in `common/common.scss`:
 
-#### Highlight a Different Button
+| Current Blue | Replace With Green |
+|--------------|-------------------|
+| `#5ca3ff` | `#5cb860` |
+| `#4285F4` | `#4CAF50` |
+| `#3a75e4` | `#45a049` |
+| `rgba(66, 133, 244` | `rgba(76, 175, 80` |
+
+#### Highlighting a Different Navigation Link
 
 Replace the selector `a.kanban-nav` with your target link:
 
@@ -74,7 +106,7 @@ Find the section labeled `/* Latest dropdown button on mobile */` and either:
 - Delete the entire section, OR
 - Comment it out by wrapping it in `/* ... */`
 
-#### Highlight Links Inside the Mobile Dropdown
+#### Highlighting Links Inside the Mobile Dropdown
 
 Add this CSS block after the existing styles:
 
@@ -92,21 +124,18 @@ Replace `a.kanban-nav` with your desired selector.
 ## Development
 
 This repository contains:
-- `common/common.scss`  All button styling and detailed customization guide
-- `assets/javascripts/discourse/api-initializers/nav-buttons-highlighter.js`  Minimal initializer (required for Discourse)
-- `about.json`  Component metadata
+- `common/common.scss` — All button styling and detailed customization guide
+- `assets/javascripts/discourse/api-initializers/nav-buttons-highlighter.js` — Minimal initializer (required for Discourse)
+- `about.json` — Component metadata
 
 ## Troubleshooting
 
-**Q: I don''t see an "Edit CSS" button**  
-A: Look for "Edit CSS/HTML" at the top of the theme page, then click "common" in the CSS section of the left sidebar.
-
-**Q: Changes aren''t appearing**  
+**Q: Changes aren't appearing**  
 A: After editing, click "Save" and hard-refresh your forum page (Ctrl+F5 or Cmd+Shift+R).
 
 **Q: I want to highlight multiple buttons**  
-A: Copy the entire button CSS block and paste it below, then change the selector and optionally the colors.
+A: Copy the entire button CSS block and paste it underneath the existing CSS rule, then change the selector and optionally the colors.
 
 ## License
 
-MIT  Public Happiness Movement
+MIT — Public Happiness Movement
