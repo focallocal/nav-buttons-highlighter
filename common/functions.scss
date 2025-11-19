@@ -2,83 +2,70 @@
  * String helper functions for parsing Discourse theme settings
  */
 
-@function str-replace($string, $search, $replace: '') {
+@function str-replace($string, $search, $replace: "") {
   $index: str-index($string, $search);
-  @if $index {
-    @return str-slice($string, 1, $index - 1) + $replace + str-replace(str-slice($string, $index + str-length($search)), $search, $replace);
+  @while $index {
+    $string: str-slice($string, 1, $index - 1) + $replace + str-slice($string, $index + str-length($search));
+    $index: str-index($string, $search);
   }
   @return $string;
 }
 
 @function str-trim($string) {
-  $start: 1;
-  $end: str-length($string);
-  
-  @while $start <= $end and (str-slice($string, $start, $start) == ' ' or str-slice($string, $start, $start) == '\n') {
-    $start: $start + 1;
+  $string: unquote($string);
+  @while str-length($string) > 0 and str-index(" ", str-slice($string, 1, 1)) {
+    $string: str-slice($string, 2);
   }
-  
-  @while $end >= $start and (str-slice($string, $end, $end) == ' ' or str-slice($string, $end, $end) == '\n') {
-    $end: $end - 1;
+  @while str-length($string) > 0 and str-index(" ", str-slice($string, -1)) {
+    $string: str-slice($string, 1, -2);
   }
-  
-  @return str-slice($string, $start, $end);
+  @return $string;
 }
 
-@function str-split($string, $delimiter) {
+@function str-split($string, $separator) {
   $result: ();
-  $index: str-index($string, $delimiter);
-  
-  @while $index {
-    $item: str-slice($string, 1, $index - 1);
+  $start: 1;
+  $index: str-index($string, $separator);
+  @while $index != null {
+    $item: str-slice($string, $start, $index - 1);
     $result: append($result, $item);
-    $string: str-slice($string, $index + str-length($delimiter));
-    $index: str-index($string, $delimiter);
+    $start: $index + str-length($separator);
+    $index: str-index(str-slice($string, $start), $separator);
+    $index: if($index != null, $start + $index - 1, null);
   }
-  
-  @if str-length($string) > 0 {
-    $result: append($result, $string);
+  $last_item: str-slice($string, $start);
+  @if $last_item != "" {
+    $result: append($result, $last_item);
   }
-  
   @return $result;
 }
 
 /**
- * Parses a string of ruby-like key-value pairs into a list of maps.
+ * Parses Discourse Objects settings from Ruby-like format to SCSS maps
  * Format: [{"key1"=>"value1", "key2"=>"value2"}, {"key1"=>"value1","key2"=>"value2"}]
- *
- * @param {String} $string - The string of key-value pairs from theme settings.
- * @return {List} - A list of maps containing the parsed key-value pairs.
  */
 @function parseObjectSettings($string) {
-  // Remove outer brackets
   $string: str-slice($string, 2, -2);
-  
-  // Split into individual objects
   $items: str-split($string, "}, {");
   $parsedItems: ();
-  
+
   @each $item in $items {
-    // Clean up the item
     $item: str-replace($item, "{", "");
     $item: str-replace($item, "}", "");
     $item: str-trim($item);
-    
-    // Split into key-value pairs
+
     $pairs: str-split($item, ", ");
     $map: ();
-    
+
     @each $pair in $pairs {
-      $kv: str-split($pair, "=>");
-      @if length($kv) == 2 {
-        $key: str-replace(str-trim(nth($kv, 1)), '"', '');
-        $value: str-replace(str-trim(nth($kv, 2)), '"', '');
-        $map: map-merge($map, ($key: $value));
-      }
+      $pairSplit: str-split($pair, "=>");
+      $key: str-slice(str-trim(nth($pairSplit, 1)), 2, -2);
+      $value: str-slice(str-trim(nth($pairSplit, 2)), 2, -2);
+      $map: map-merge($map, (quote($key): quote($value)));
     }
-    
+
     $parsedItems: append($parsedItems, $map);
   }
-  
+
   @return $parsedItems;
 }
