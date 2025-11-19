@@ -1,6 +1,6 @@
 highlighted_buttons:
   type: objects
-  default: |
+  default: 
     - selector: a.kanban-nav
       color: "#4285F4"
       label: "Kanban Tasks Button"
