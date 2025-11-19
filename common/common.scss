@@ -15,15 +15,15 @@
    No CSS editing required!
    ============================================ */
 
-// Fallback: Hard-coded green button (if settings fail, you'll see GREEN)
+// Fallback: Hard-coded BLUE button (if settings fail, you'll see BLUE)
 a.kanban-nav {
-  background: linear-gradient(135deg, #66d96a 0%, #4CAF50 50%, #45a049 100%) !important;  
+  background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%) !important;  
   color: #fff !important;
   padding: 8px 18px !important;
   border-radius: 10px !important;
   font-weight: 600 !important;
   text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
-  border: 1px solid rgba(76, 175, 80, 0.9) !important;
+  border: 1px solid rgba(66, 133, 244, 0.9) !important;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
   position: relative;
   overflow: hidden;
@@ -41,8 +41,8 @@ a.kanban-nav {
 
   &:hover {
     transform: translateY(-3px) scale(1.02) !important;
-    background: linear-gradient(135deg, #7adf7e 0%, #66d96a 50%, #4CAF50 100%) !important;
-    border-color: rgba(102, 217, 106, 1) !important;
+    background: linear-gradient(135deg, #6bb0ff 0%, #5ca3ff 50%, #4d94ff 100%) !important;
+    border-color: rgba(107, 176, 255, 1) !important;
 
     &:before {
       left: 100%;
