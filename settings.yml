@@ -1,26 +1,58 @@
-highlighted_buttons:
-  type: objects
-  default: 
-    - selector: a.kanban-nav
-      color: "#4CAF50"
-      label: "Kanban Tasks Button (GREEN - from admin settings)"
-  description: "Configure which navigation buttons to highlight. Add multiple buttons by clicking 'Add Item'."
-  schema:
-    name: highlighted_buttons
-    properties:
-      selector:
-        type: string
-        required: true
-        description: "CSS selector for the button (e.g., a.kanban-nav or a[href='/tasks'])"
-      color:
-        type: string
-        default: "#4CAF50"
-        description: "Base color for the button gradient (hex format) - GREEN default for testing"
-      label:
-        type: string
-        description: "Descriptive name for this button (for your reference only)"
+# Navigation Buttons to Highlight
+highlight_kanban:
+  default: true
+  type: bool
+  description: "Highlight the Kanban Tasks button"
 
+kanban_color:
+  default: "#4CAF50"
+  type: string
+  description: "Color for Kanban button gradient (hex format)"
+
+kanban_selector:
+  default: "a.kanban-nav"
+  type: string
+  description: "CSS selector for Kanban button"
+
+# Add more buttons here as needed
+highlight_button_2:
+  default: false
+  type: bool
+  description: "Enable second custom highlighted button"
+
+button_2_color:
+  default: "#2196F3"
+  type: string
+  description: "Color for second button gradient"
+
+button_2_selector:
+  default: ""
+  type: string
+  description: "CSS selector for second button (e.g., a[href='/page'])"
+
+highlight_button_3:
+  default: false
+  type: bool
+  description: "Enable third custom highlighted button"
+
+button_3_color:
+  default: "#FF5722"
+  type: string
+  description: "Color for third button gradient"
+
+button_3_selector:
+  default: ""
+  type: string
+  description: "CSS selector for third button"
+
+# Mobile dropdown
 highlight_mobile_dropdown:
   type: bool
   default: true
   description: "Highlight the mobile 'Latest' dropdown toggle button"
+
+mobile_dropdown_color:
+  default: "#4CAF50"
+  type: string
+  description: "Color for mobile dropdown button"
+

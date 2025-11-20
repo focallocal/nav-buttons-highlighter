@@ -34,17 +34,35 @@ By default, this component is set up to highlight the **Discourse Kanban** plugi
 
 ### Admin Settings Panel
 
-**Version 3.0+ now supports admin configuration!** No forking or CSS editing required.
+All configuration is done through simple admin settings - no CSS editing required!
 
-**To configure the component:**
+**To configure:**
 
 1. Go to **Admin → Customize → Themes**
 2. Click on your active theme
 3. Find **Nav Buttons Highlighter** in the Included Components section
-4. Click **Settings** (gear icon)
-5. Configure your highlighted buttons:
-   - **highlighted_buttons**: Add/edit buttons with selector, color, and label
-   - **highlight_mobile_dropdown**: Toggle mobile dropdown highlighting
+4. Click **Settings**
+
+**Available Settings:**
+
+**Button 1 - Kanban (Default):**
+- **Highlight Kanban**: Toggle on/off (default: on)
+- **Kanban Color**: Color picker for gradient (default: green #4CAF50)
+- **Kanban Selector**: CSS selector (default: `a.kanban-nav`)
+
+**Button 2 - Custom:**
+- **Highlight Button 2**: Enable second button
+- **Button 2 Color**: Color picker (default: blue #2196F3)
+- **Button 2 Selector**: Enter your CSS selector (e.g., `a[href='/page']`)
+
+**Button 3 - Custom:**
+- **Highlight Button 3**: Enable third button
+- **Button 3 Color**: Color picker (default: orange #FF5722)
+- **Button 3 Selector**: Enter your CSS selector
+
+**Mobile:**
+- **Highlight Mobile Dropdown**: Toggle mobile Latest dropdown (default: on)
+- **Mobile Dropdown Color**: Color picker (default: green #4CAF50)
 
 **Finding CSS Selectors:**
 
