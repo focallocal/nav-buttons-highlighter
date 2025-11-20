@@ -5,9 +5,9 @@ highlight_kanban:
   description: "Highlight the Kanban Tasks button"
 
 kanban_color:
-  default: "#4CAF50"
+  default: "#4285F4"
   type: string
-  description: "Color for Kanban button gradient (hex format)"
+  description: "Color for Kanban button (hex format)"
 
 kanban_selector:
   default: "a.kanban-nav"
@@ -21,9 +21,9 @@ highlight_button_2:
   description: "Enable second custom highlighted button"
 
 button_2_color:
-  default: "#2196F3"
+  default: "#4CAF50"
   type: string
-  description: "Color for second button gradient"
+  description: "Color for second button"
 
 button_2_selector:
   default: ""
@@ -38,7 +38,7 @@ highlight_button_3:
 button_3_color:
   default: "#FF5722"
   type: string
-  description: "Color for third button gradient"
+  description: "Color for third button"
 
 button_3_selector:
   default: ""
@@ -52,7 +52,7 @@ highlight_mobile_dropdown:
   description: "Highlight the mobile 'Latest' dropdown toggle button"
 
 mobile_dropdown_color:
-  default: "#4CAF50"
+  default: "#4285F4"
   type: string
   description: "Color for mobile dropdown button"
 

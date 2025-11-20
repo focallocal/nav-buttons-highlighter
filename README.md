@@ -11,15 +11,16 @@ This component helps you:
 
 ## Features
 
-- 3D button styling with gradients, shadows, and hover effects
-- Mobile-responsive - highlights the "Latest" dropdown toggle button on mobile so users are more clear they can/should click it
+- Clean button styling with solid colors and hover effects
+- Admin configurable - no CSS editing required
+- Support for up to 3 custom navigation buttons
+- Mobile-responsive - includes mobile dropdown button highlighting
 - Pre-configured for Discourse Kanban plugin by default
-- CSS-only implementation - reliable and lightweight
-- Easy to customize
+- Color picker support for easy customization
 
 ## Default Configuration
 
-By default, this component is set up to highlight the **Discourse Kanban** plugin ([link](https://meta.discourse.org/t/kanban-board/)) in **BLUE**. However, it can easily be changed to highlight any navigation link you choose in any colour.
+By default, this component is set up to highlight the **Discourse Kanban** plugin ([link](https://meta.discourse.org/t/kanban-board/)) in **BLUE** (#4285F4).
 
 ## Installation
 
@@ -47,22 +48,22 @@ All configuration is done through simple admin settings - no CSS editing require
 
 **Button 1 - Kanban (Default):**
 - **Highlight Kanban**: Toggle on/off (default: on)
-- **Kanban Color**: Color picker for gradient (default: green #4CAF50)
+- **Kanban Color**: Color picker (default: blue #4285F4)
 - **Kanban Selector**: CSS selector (default: `a.kanban-nav`)
 
 **Button 2 - Custom:**
-- **Highlight Button 2**: Enable second button
-- **Button 2 Color**: Color picker (default: blue #2196F3)
+- **Highlight Button 2**: Enable second button (default: off)
+- **Button 2 Color**: Color picker (default: green #4CAF50)
 - **Button 2 Selector**: Enter your CSS selector (e.g., `a[href='/page']`)
 
 **Button 3 - Custom:**
-- **Highlight Button 3**: Enable third button
+- **Highlight Button 3**: Enable third button (default: off)
 - **Button 3 Color**: Color picker (default: orange #FF5722)
 - **Button 3 Selector**: Enter your CSS selector
 
 **Mobile:**
 - **Highlight Mobile Dropdown**: Toggle mobile Latest dropdown (default: on)
-- **Mobile Dropdown Color**: Color picker (default: green #4CAF50)
+- **Mobile Dropdown Color**: Color picker (default: blue #4285F4)
 
 **Finding CSS Selectors:**
 
