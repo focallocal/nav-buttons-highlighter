@@ -14,18 +14,13 @@
 // Button 1 - Kanban
 @if $highlight_kanban {
   #{$kanban_selector} {
-    $color: #{$kanban_color};
-    $light: mix(#fff, $color, 15%);
-    $dark: mix(#000, $color, 10%);
-    $lighter: mix(#fff, $light, 10%);
-    
-    background: linear-gradient(135deg, $light 0%, $color 50%, $dark 100%) !important;  
+    background: linear-gradient(135deg, lighten($kanban_color, 15%) 0%, $kanban_color 50%, darken($kanban_color, 10%) 100%) !important;  
     color: #fff !important;
     padding: 8px 18px !important;
     border-radius: 10px !important;
     font-weight: 600 !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
-    border: 1px solid rgba($color, 0.9) !important;
+    border: 1px solid $kanban_color !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     position: relative;
     overflow: hidden;
@@ -43,8 +38,8 @@
 
     &:hover {
       transform: translateY(-3px) scale(1.02) !important;
-      background: linear-gradient(135deg, $lighter 0%, $light 50%, $color 100%) !important;
-      border-color: rgba($light, 1) !important;
+      background: linear-gradient(135deg, lighten($kanban_color, 20%) 0%, lighten($kanban_color, 15%) 50%, $kanban_color 100%) !important;
+      border-color: lighten($kanban_color, 15%) !important;
 
       &:before {
         left: 100%;
@@ -60,18 +55,13 @@
 // Button 2 - Custom
 @if $highlight_button_2 and $button_2_selector != "" {
   #{$button_2_selector} {
-    $color: #{$button_2_color};
-    $light: mix(#fff, $color, 15%);
-    $dark: mix(#000, $color, 10%);
-    $lighter: mix(#fff, $light, 10%);
-    
-    background: linear-gradient(135deg, $light 0%, $color 50%, $dark 100%) !important;  
+    background: linear-gradient(135deg, lighten($button_2_color, 15%) 0%, $button_2_color 50%, darken($button_2_color, 10%) 100%) !important;  
     color: #fff !important;
     padding: 8px 18px !important;
     border-radius: 10px !important;
     font-weight: 600 !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
-    border: 1px solid rgba($color, 0.9) !important;
+    border: 1px solid $button_2_color !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     position: relative;
     overflow: hidden;
@@ -89,8 +79,8 @@
 
     &:hover {
       transform: translateY(-3px) scale(1.02) !important;
-      background: linear-gradient(135deg, $lighter 0%, $light 50%, $color 100%) !important;
-      border-color: rgba($light, 1) !important;
+      background: linear-gradient(135deg, lighten($button_2_color, 20%) 0%, lighten($button_2_color, 15%) 50%, $button_2_color 100%) !important;
+      border-color: lighten($button_2_color, 15%) !important;
 
       &:before {
         left: 100%;
@@ -106,18 +96,13 @@
 // Button 3 - Custom
 @if $highlight_button_3 and $button_3_selector != "" {
   #{$button_3_selector} {
-    $color: #{$button_3_color};
-    $light: mix(#fff, $color, 15%);
-    $dark: mix(#000, $color, 10%);
-    $lighter: mix(#fff, $light, 10%);
-    
-    background: linear-gradient(135deg, $light 0%, $color 50%, $dark 100%) !important;  
+    background: linear-gradient(135deg, lighten($button_3_color, 15%) 0%, $button_3_color 50%, darken($button_3_color, 10%) 100%) !important;  
     color: #fff !important;
     padding: 8px 18px !important;
     border-radius: 10px !important;
     font-weight: 600 !important;
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
-    border: 1px solid rgba($color, 0.9) !important;
+    border: 1px solid $button_3_color !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     position: relative;
     overflow: hidden;
@@ -135,8 +120,8 @@
 
     &:hover {
       transform: translateY(-3px) scale(1.02) !important;
-      background: linear-gradient(135deg, $lighter 0%, $light 50%, $color 100%) !important;
-      border-color: rgba($light, 1) !important;
+      background: linear-gradient(135deg, lighten($button_3_color, 20%) 0%, lighten($button_3_color, 15%) 50%, $button_3_color 100%) !important;
+      border-color: lighten($button_3_color, 15%) !important;
 
       &:before {
         left: 100%;
@@ -151,19 +136,14 @@
 
 // Mobile dropdown
 @if $highlight_mobile_dropdown {
-  $mobile_color: #{$mobile_dropdown_color};
-  $light: mix(#fff, $mobile_color, 15%);
-  $dark: mix(#000, $mobile_color, 10%);
-  $lighter: mix(#fff, $light, 10%);
-  
   .fk-d-menu__trigger.list-control-toggle-link-trigger,
   button.list-control-toggle-link-trigger {
-    background: linear-gradient(135deg, $light 0%, $mobile_color 50%, $dark 100%) !important;  
+    background: linear-gradient(135deg, lighten($mobile_dropdown_color, 15%) 0%, $mobile_dropdown_color 50%, darken($mobile_dropdown_color, 10%) 100%) !important;  
     color: #fff !important;
     padding: 10px 20px !important;
     border-radius: 12px !important;
     font-weight: 600 !important;
-    border: 1px solid rgba($mobile_color, 0.9) !important;
+    border: 1px solid $mobile_dropdown_color !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     min-width: 120px !important;
     
@@ -173,8 +153,8 @@
 
     &:hover {
       transform: translateY(-2px) scale(1.02) !important;
-      background: linear-gradient(135deg, $lighter 0%, $light 50%, $mobile_color 100%) !important;
-      border-color: rgba($light, 1) !important;
+      background: linear-gradient(135deg, lighten($mobile_dropdown_color, 20%) 0%, lighten($mobile_dropdown_color, 15%) 50%, $mobile_dropdown_color 100%) !important;
+      border-color: lighten($mobile_dropdown_color, 15%) !important;
     }
 
     &:active {
