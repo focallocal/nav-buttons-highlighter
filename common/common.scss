@@ -1,164 +1,136 @@
 /* ============================================
-   NAV BUTTONS HIGHLIGHTER - ADMIN CONFIGURED
+   NAV BUTTONS HIGHLIGHTER - THEME COMPONENT
    ============================================
    
-   Configured through: Admin → Customize → Themes → Settings
+   📝 QUICK START - WHAT TO CHANGE:
    
-   You can:
-   - Enable/disable each button
-   - Change colors via color picker
-   - Customize CSS selectors
-   - Toggle mobile dropdown highlighting
+   1. TO HIGHLIGHT A DIFFERENT LINK:
+      - Find the line: a.kanban-nav {
+      - Replace "a.kanban-nav" with your link's selector (see guide below)
+   
+   2. TO CHANGE THE COLOR:
+      - Find these 3 lines and replace the hex codes:
+        * Line ~69: background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%)
+        * Line ~88: background: linear-gradient(135deg, #6bb0ff 0%, #5ca3ff 50%, #4d94ff 100%)
+        * Line ~103: background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%)
+      - Also update the border color on line ~74: border: 1px solid rgba(92, 163, 255, 0.9)
+   
+   3. TO REMOVE MOBILE DROPDOWN HIGHLIGHTING:
+      - Delete everything from line ~97 to the end of the file
+   
+   
+   ============================================
+   DETAILED GUIDES BELOW
+   ============================================
+   
+   
+   HOW TO FIND THE RIGHT SELECTOR FOR YOUR LINK:
+   
+   Step 1: Open your forum and find the navigation link you want to highlight
+   Step 2: Right-click it and select "Inspect" or "Inspect Element"  
+   Step 3: In the HTML, look for the <a> tag and note:
+           - Any class names: class="kanban-nav" → use: a.kanban-nav
+           - The href value: href="/c/support" → use: a[href="/c/support"]
+   Step 4: Replace "a.kanban-nav" on line ~68 with your selector
+   
+   COMMON EXAMPLES:
+   - Kanban plugin: a.kanban-nav
+   - Support category: a[href="/c/support"]
+   - Documentation tag: a[href="/tags/documentation"]  
+   - Custom page: a[href="/my-page"]
+   - Second nav button: #navigation-bar > li:nth-child(2) > a
+   
+   
+   HOW TO CHANGE COLORS (BLUE → GREEN example):
+   
+   Find and Replace these values throughout this file:
+   
+   BLUE (current):          →    GREEN (replacement):
+   #4285F4                  →    #4CAF50
+   #5ca3ff                  →    #5cb860
+   #3a75e4                  →    #45a049
+   #6bb0ff                  →    #66c26a
+   #4d94ff                  →    #52b356
+   92, 163, 255             →    92, 184, 96
+   107, 176, 255            →    102, 194, 106
+   
+   OTHER COLOR OPTIONS:
+   Red: #F44336, #ff6659, #d32f2f (RGB: 244, 67, 54)
+   Orange: #FF9800, #ffb74d, #f57c00 (RGB: 255, 152, 0)
+   Purple: #9C27B0, #ba68c8, #7b1fa2 (RGB: 156, 39, 176)
+   
+   
+   MOBILE DROPDOWN BUTTON:
+   
+   The second CSS block (starting around line ~97) styles the "Latest" dropdown
+   on mobile devices. To change its color, use the same values as your main button.
+   To remove it entirely, delete that whole section.
+   
+   
    ============================================ */
 
-// Button 1 - Kanban
-@if $highlight_kanban {
-  #{$kanban_selector} {
-    background: linear-gradient(135deg, lighten($kanban_color, 15%) 0%, $kanban_color 50%, darken($kanban_color, 10%) 100%) !important;  
-    color: #fff !important;
-    padding: 8px 18px !important;
-    border-radius: 10px !important;
-    font-weight: 600 !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
-    border: 1px solid $kanban_color !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    position: relative;
-    overflow: hidden;
+/* Kanban button - Blue (Desktop & Mobile) */
+a.kanban-nav {
+  background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%) !important;  
+  color: #fff !important;
+  padding: 8px 18px !important;
+  border-radius: 10px !important;
+  font-weight: 600 !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
+  border: 1px solid rgba(92, 163, 255, 0.9) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);  
+    transition: left 0.5s;
+  }
+
+  &:hover {
+    transform: translateY(-3px) scale(1.02) !important;
+    background: linear-gradient(135deg, #6bb0ff 0%, #5ca3ff 50%, #4d94ff 100%) !important;
+    border-color: rgba(107, 176, 255, 1) !important;
 
     &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);  
-      transition: left 0.5s;
+      left: 100%;
     }
+  }
 
-    &:hover {
-      transform: translateY(-3px) scale(1.02) !important;
-      background: linear-gradient(135deg, lighten($kanban_color, 20%) 0%, lighten($kanban_color, 15%) 50%, $kanban_color 100%) !important;
-      border-color: lighten($kanban_color, 15%) !important;
-
-      &:before {
-        left: 100%;
-      }
-    }
-
-    &:active {
-      transform: translateY(-1px) scale(0.98) !important;
-    }
+  &:active {
+    transform: translateY(-1px) scale(0.98) !important;
   }
 }
 
-// Button 2 - Custom
-@if $highlight_button_2 and $button_2_selector != "" {
-  #{$button_2_selector} {
-    background: linear-gradient(135deg, lighten($button_2_color, 15%) 0%, $button_2_color 50%, darken($button_2_color, 10%) 100%) !important;  
+/* Latest dropdown button on mobile - Blue */
+.fk-d-menu__trigger.list-control-toggle-link-trigger,
+button.list-control-toggle-link-trigger {
+  background: linear-gradient(135deg, #5ca3ff 0%, #4285F4 50%, #3a75e4 100%) !important;  
+  color: #fff !important;
+  padding: 10px 20px !important;
+  border-radius: 12px !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(92, 163, 255, 0.9) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  min-width: 120px !important;
+  
+  .d-icon {
     color: #fff !important;
-    padding: 8px 18px !important;
-    border-radius: 10px !important;
-    font-weight: 600 !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
-    border: 1px solid $button_2_color !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    position: relative;
-    overflow: hidden;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);  
-      transition: left 0.5s;
-    }
-
-    &:hover {
-      transform: translateY(-3px) scale(1.02) !important;
-      background: linear-gradient(135deg, lighten($button_2_color, 20%) 0%, lighten($button_2_color, 15%) 50%, $button_2_color 100%) !important;
-      border-color: lighten($button_2_color, 15%) !important;
-
-      &:before {
-        left: 100%;
-      }
-    }
-
-    &:active {
-      transform: translateY(-1px) scale(0.98) !important;
-    }
   }
-}
 
-// Button 3 - Custom
-@if $highlight_button_3 and $button_3_selector != "" {
-  #{$button_3_selector} {
-    background: linear-gradient(135deg, lighten($button_3_color, 15%) 0%, $button_3_color 50%, darken($button_3_color, 10%) 100%) !important;  
-    color: #fff !important;
-    padding: 8px 18px !important;
-    border-radius: 10px !important;
-    font-weight: 600 !important;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
-    border: 1px solid $button_3_color !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    position: relative;
-    overflow: hidden;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);  
-      transition: left 0.5s;
-    }
-
-    &:hover {
-      transform: translateY(-3px) scale(1.02) !important;
-      background: linear-gradient(135deg, lighten($button_3_color, 20%) 0%, lighten($button_3_color, 15%) 50%, $button_3_color 100%) !important;
-      border-color: lighten($button_3_color, 15%) !important;
-
-      &:before {
-        left: 100%;
-      }
-    }
-
-    &:active {
-      transform: translateY(-1px) scale(0.98) !important;
-    }
+  &:hover {
+    transform: translateY(-2px) scale(1.02) !important;
+    background: linear-gradient(135deg, #6bb0ff 0%, #5ca3ff 50%, #4d94ff 100%) !important;
+    border-color: rgba(107, 176, 255, 1) !important;
   }
-}
 
-// Mobile dropdown
-@if $highlight_mobile_dropdown {
-  .fk-d-menu__trigger.list-control-toggle-link-trigger,
-  button.list-control-toggle-link-trigger {
-    background: linear-gradient(135deg, lighten($mobile_dropdown_color, 15%) 0%, $mobile_dropdown_color 50%, darken($mobile_dropdown_color, 10%) 100%) !important;  
-    color: #fff !important;
-    padding: 10px 20px !important;
-    border-radius: 12px !important;
-    font-weight: 600 !important;
-    border: 1px solid $mobile_dropdown_color !important;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-    min-width: 120px !important;
-    
-    .d-icon {
-      color: #fff !important;
-    }
-
-    &:hover {
-      transform: translateY(-2px) scale(1.02) !important;
-      background: linear-gradient(135deg, lighten($mobile_dropdown_color, 20%) 0%, lighten($mobile_dropdown_color, 15%) 50%, $mobile_dropdown_color 100%) !important;
-      border-color: lighten($mobile_dropdown_color, 15%) !important;
-    }
-
-    &:active {
-      transform: translateY(-1px) scale(0.98) !important;
-    }
+  &:active {
+    transform: translateY(-1px) scale(0.98) !important;
   }
 }
