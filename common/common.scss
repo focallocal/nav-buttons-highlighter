@@ -11,77 +11,154 @@
    - Toggle mobile dropdown highlighting
    ============================================ */
 
-// Mixin for button styling
-@mixin highlighted-button($color) {
-  $light: mix(#fff, $color, 15%);
-  $dark: mix(#000, $color, 10%);
-  $lighter: mix(#fff, $light, 10%);
-  
-  background: linear-gradient(135deg, $light 0%, $color 50%, $dark 100%) !important;  
-  color: #fff !important;
-  padding: 8px 18px !important;
-  border-radius: 10px !important;
-  font-weight: 600 !important;
-  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
-  border: 1px solid rgba($color, 0.9) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  position: relative;
-  overflow: hidden;
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);  
-    transition: left 0.5s;
-  }
-
-  &:hover {
-    transform: translateY(-3px) scale(1.02) !important;
-    background: linear-gradient(135deg, $lighter 0%, $light 50%, $color 100%) !important;
-    border-color: rgba($light, 1) !important;
-
-    &:before {
-      left: 100%;
-    }
-  }
-
-  &:active {
-    transform: translateY(-1px) scale(0.98) !important;
-  }
-}
-
 // Button 1 - Kanban
 @if $highlight_kanban {
   #{$kanban_selector} {
-    @include highlighted-button(unquote($kanban_color));
+    $color: #{$kanban_color};
+    $light: mix(#fff, $color, 15%);
+    $dark: mix(#000, $color, 10%);
+    $lighter: mix(#fff, $light, 10%);
+    
+    background: linear-gradient(135deg, $light 0%, $color 50%, $dark 100%) !important;  
+    color: #fff !important;
+    padding: 8px 18px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
+    border: 1px solid rgba($color, 0.9) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);  
+      transition: left 0.5s;
+    }
+
+    &:hover {
+      transform: translateY(-3px) scale(1.02) !important;
+      background: linear-gradient(135deg, $lighter 0%, $light 50%, $color 100%) !important;
+      border-color: rgba($light, 1) !important;
+
+      &:before {
+        left: 100%;
+      }
+    }
+
+    &:active {
+      transform: translateY(-1px) scale(0.98) !important;
+    }
   }
 }
 
 // Button 2 - Custom
 @if $highlight_button_2 and $button_2_selector != "" {
   #{$button_2_selector} {
-    @include highlighted-button(unquote($button_2_color));
+    $color: #{$button_2_color};
+    $light: mix(#fff, $color, 15%);
+    $dark: mix(#000, $color, 10%);
+    $lighter: mix(#fff, $light, 10%);
+    
+    background: linear-gradient(135deg, $light 0%, $color 50%, $dark 100%) !important;  
+    color: #fff !important;
+    padding: 8px 18px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
+    border: 1px solid rgba($color, 0.9) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);  
+      transition: left 0.5s;
+    }
+
+    &:hover {
+      transform: translateY(-3px) scale(1.02) !important;
+      background: linear-gradient(135deg, $lighter 0%, $light 50%, $color 100%) !important;
+      border-color: rgba($light, 1) !important;
+
+      &:before {
+        left: 100%;
+      }
+    }
+
+    &:active {
+      transform: translateY(-1px) scale(0.98) !important;
+    }
   }
 }
 
 // Button 3 - Custom
 @if $highlight_button_3 and $button_3_selector != "" {
   #{$button_3_selector} {
-    @include highlighted-button(unquote($button_3_color));
+    $color: #{$button_3_color};
+    $light: mix(#fff, $color, 15%);
+    $dark: mix(#000, $color, 10%);
+    $lighter: mix(#fff, $light, 10%);
+    
+    background: linear-gradient(135deg, $light 0%, $color 50%, $dark 100%) !important;  
+    color: #fff !important;
+    padding: 8px 18px !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3), 0 0 4px rgba(255, 255, 255, 0.1) !important; 
+    border: 1px solid rgba($color, 0.9) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
+
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);  
+      transition: left 0.5s;
+    }
+
+    &:hover {
+      transform: translateY(-3px) scale(1.02) !important;
+      background: linear-gradient(135deg, $lighter 0%, $light 50%, $color 100%) !important;
+      border-color: rgba($light, 1) !important;
+
+      &:before {
+        left: 100%;
+      }
+    }
+
+    &:active {
+      transform: translateY(-1px) scale(0.98) !important;
+    }
   }
 }
 
 // Mobile dropdown
 @if $highlight_mobile_dropdown {
-  $mobile_color: unquote($mobile_dropdown_color);
+  $mobile_color: #{$mobile_dropdown_color};
+  $light: mix(#fff, $mobile_color, 15%);
+  $dark: mix(#000, $mobile_color, 10%);
+  $lighter: mix(#fff, $light, 10%);
   
   .fk-d-menu__trigger.list-control-toggle-link-trigger,
   button.list-control-toggle-link-trigger {
-    background: linear-gradient(135deg, mix(#fff, $mobile_color, 15%) 0%, $mobile_color 50%, mix(#000, $mobile_color, 10%) 100%) !important;  
+    background: linear-gradient(135deg, $light 0%, $mobile_color 50%, $dark 100%) !important;  
     color: #fff !important;
     padding: 10px 20px !important;
     border-radius: 12px !important;
@@ -96,8 +173,8 @@
 
     &:hover {
       transform: translateY(-2px) scale(1.02) !important;
-      background: linear-gradient(135deg, mix(#fff, mix(#fff, $mobile_color, 15%), 10%) 0%, mix(#fff, $mobile_color, 15%) 50%, $mobile_color 100%) !important;
-      border-color: rgba(mix(#fff, $mobile_color, 15%), 1) !important;
+      background: linear-gradient(135deg, $lighter 0%, $light 50%, $mobile_color 100%) !important;
+      border-color: rgba($light, 1) !important;
     }
 
     &:active {
