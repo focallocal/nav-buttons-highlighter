@@ -57,34 +57,36 @@
 // Button 1 - Kanban
 @if $highlight_kanban {
   #{$kanban_selector} {
-    @include highlighted-button($kanban_color);
+    @include highlighted-button(unquote($kanban_color));
   }
 }
 
 // Button 2 - Custom
 @if $highlight_button_2 and $button_2_selector != "" {
   #{$button_2_selector} {
-    @include highlighted-button($button_2_color);
+    @include highlighted-button(unquote($button_2_color));
   }
 }
 
 // Button 3 - Custom
 @if $highlight_button_3 and $button_3_selector != "" {
   #{$button_3_selector} {
-    @include highlighted-button($button_3_color);
+    @include highlighted-button(unquote($button_3_color));
   }
 }
 
 // Mobile dropdown
 @if $highlight_mobile_dropdown {
+  $mobile_color: unquote($mobile_dropdown_color);
+  
   .fk-d-menu__trigger.list-control-toggle-link-trigger,
   button.list-control-toggle-link-trigger {
-    background: linear-gradient(135deg, mix(#fff, $mobile_dropdown_color, 15%) 0%, $mobile_dropdown_color 50%, mix(#000, $mobile_dropdown_color, 10%) 100%) !important;  
+    background: linear-gradient(135deg, mix(#fff, $mobile_color, 15%) 0%, $mobile_color 50%, mix(#000, $mobile_color, 10%) 100%) !important;  
     color: #fff !important;
     padding: 10px 20px !important;
     border-radius: 12px !important;
     font-weight: 600 !important;
-    border: 1px solid rgba($mobile_dropdown_color, 0.9) !important;
+    border: 1px solid rgba($mobile_color, 0.9) !important;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
     min-width: 120px !important;
     
@@ -94,8 +96,8 @@
 
     &:hover {
       transform: translateY(-2px) scale(1.02) !important;
-      background: linear-gradient(135deg, mix(#fff, mix(#fff, $mobile_dropdown_color, 15%), 10%) 0%, mix(#fff, $mobile_dropdown_color, 15%) 50%, $mobile_dropdown_color 100%) !important;
-      border-color: rgba(mix(#fff, $mobile_dropdown_color, 15%), 1) !important;
+      background: linear-gradient(135deg, mix(#fff, mix(#fff, $mobile_color, 15%), 10%) 0%, mix(#fff, $mobile_color, 15%) 50%, $mobile_color 100%) !important;
+      border-color: rgba(mix(#fff, $mobile_color, 15%), 1) !important;
     }
 
     &:active {
