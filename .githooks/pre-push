@@ -1,0 +1,39 @@
+#!/bin/bash
+# Discourse Theme Component - Pre-Push Hook
+# Automatically runs quality checks before pushing
+
+echo "Running pre-push checks..."
+
+# Try PowerShell first (Windows), then fall back to bash checks
+if command -v powershell.exe &> /dev/null; then
+    powershell.exe -ExecutionPolicy Bypass -File "./pre-push-check.ps1"
+    exit $?
+fi
+
+# Basic checks for Unix systems
+ERRORS=0
+
+# Check for rgba() in SCSS
+if grep -rn "rgba\s*(" common/*.scss 2>/dev/null > /dev/null; then
+    echo "ERROR: Found rgba() - use rgb(var(--color-rgb) / alpha) instead"
+    ERRORS=$((ERRORS + 1))
+fi
+
+# Check about.json exists
+if [ ! -f "about.json" ]; then
+    echo "ERROR: Missing about.json"
+    ERRORS=$((ERRORS + 1))
+fi
+
+# Run linters if available
+if [ -f "node_modules/.bin/stylelint" ]; then
+    npx stylelint "common/**/*.scss" --quiet || ERRORS=$((ERRORS + 1))
+fi
+
+if [ $ERRORS -gt 0 ]; then
+    echo "Pre-push checks failed. Use 'git push --no-verify' to skip."
+    exit 1
+fi
+
+echo "Pre-push checks passed!"
+exit 0
