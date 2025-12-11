@@ -223,6 +223,34 @@ my-theme-component/
 }
 ```
 
+### settings.yml - Use Dropdowns for Categories and Groups
+
+**Don't make admins type slugs manually!** Use `list_type` for category/group pickers:
+
+```yaml
+# ❌ BAD - Manual text entry for categories
+categories_to_hide:
+  type: list
+  default: ""
+  description: "Enter category slugs separated by commas"
+
+# ✅ GOOD - Category dropdown picker
+categories_to_hide:
+  type: list
+  list_type: category
+  default: ""
+  description: "Categories to hide from sidebar"
+
+# ✅ GOOD - Group dropdown picker  
+groups_allowed:
+  type: list
+  list_type: group
+  default: ""
+  description: "Groups this setting applies to"
+```
+
+This gives admins a nice searchable dropdown instead of having to look up slugs!
+
 ---
 
 ## Testing
